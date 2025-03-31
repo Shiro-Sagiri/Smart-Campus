@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: Smart-Campus
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: atteity890560
+    url: jdbc:mysql://localhost:3306/smart_campus
