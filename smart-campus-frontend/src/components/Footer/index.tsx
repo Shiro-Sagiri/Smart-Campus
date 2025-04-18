@@ -5,6 +5,7 @@ import React from 'react';
 const Footer: React.FC = () => {
   return (
     <DefaultFooter
+      copyright={'Shiro'}
       style={{
         background: 'none',
       }}
@@ -12,19 +13,13 @@ const Footer: React.FC = () => {
         {
           key: 'Smart Campus',
           title: '智慧校园综合服务平台',
-          href: 'https://pro.ant.design',
+          href: 'https://github.com/Shiro-Sagiri/Smart-Campus',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
-          blankTarget: true,
-        },
-        {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          href: 'https://github.com/Shiro-Sagiri/Smart-Campus',
           blankTarget: true,
         },
       ]}

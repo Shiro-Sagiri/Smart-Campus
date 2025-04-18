@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.campus.mapper.CourseMapper">
+
+    <resultMap id="BaseResultMap" type="com.shiro.campus.model.entity.Course">
+            <id property="courseId" column="courseId" />
+            <result property="courseName" column="courseName" />
+            <result property="credit" column="credit" />
+            <result property="teacherId" column="teacherId" />
+            <result property="maxCapacity" column="maxCapacity" />
+            <result property="classTime" column="classTime" />
+            <result property="location" column="location" />
+            <result property="isDeleted" column="isDeleted" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        courseId,courseName,credit,teacherId,maxCapacity,classTime,
+        location,isDeleted
+    </sql>
+</mapper>

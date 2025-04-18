@@ -1,4 +1,11 @@
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    static-path-pattern: /**
   application:
     name: Smart-Campus
   datasource:
@@ -6,3 +13,39 @@ spring:
     username: root
     password: atteity890560
     url: jdbc:mysql://localhost:3306/smart_campus
+  data:
+    redis:
+      database: 1
+  session:
+    timeout: 7200
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+  mapper-locations: classpath*:mapper/**/*.xml
+knife4j:
+  enable: true  # 显式启用 Knife4j（默认已启用，但建议明确配置）
+  setting:
+    language: zh_cn  # 设置中文界面（默认英文）
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.shiro.campus.controller

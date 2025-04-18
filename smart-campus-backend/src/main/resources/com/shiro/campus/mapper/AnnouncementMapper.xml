@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.campus.mapper.AnnouncementMapper">
+
+    <resultMap id="BaseResultMap" type="com.shiro.campus.model.entity.Announcement">
+            <id property="announcementId" column="announcementId" />
+            <result property="title" column="title" />
+            <result property="content" column="content" />
+            <result property="publisherId" column="publisherId" />
+            <result property="publishTime" column="publishTime" />
+            <result property="target" column="target" />
+            <result property="isDeleted" column="isDeleted" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        announcementId,title,content,publisherId,publishTime,target,
+        isDeleted
+    </sql>
+</mapper>

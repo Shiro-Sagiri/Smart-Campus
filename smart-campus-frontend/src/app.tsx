@@ -1,13 +1,14 @@
 import { Footer, AvatarDropdown, AvatarName } from '@/components';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history, Link } from '@umijs/max';
+import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import React from 'react';
+import { getCurrentUser } from '@/services/smart-campus/userController';
+import { message } from 'antd';
+
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -16,18 +17,17 @@ const loginPath = '/user/login';
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.UserVO;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.UserVO | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
+      const msg = await getCurrentUser();
       return msg.data;
     } catch (error) {
       history.push(loginPath);
+      message.error('登入过期！');
     }
     return undefined;
   };
@@ -48,11 +48,10 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
-    actionsRender: () => [],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: initialState?.currentUser?.userAvatar,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
@@ -64,6 +63,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
+        message.error('登入过期！');
       }
     },
     bgLayoutImgList: [
@@ -88,10 +88,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ],
     links: isDev
       ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
+          <a key="openapi" target="_blank" href="http://localhost:8080/doc.html#/home">
             <LinkOutlined />
             <span>OpenAPI 文档</span>
-          </Link>,
+          </a>,
         ]
       : [],
     menuHeaderRender: undefined,
@@ -103,19 +103,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       return (
         <>
           {children}
-          {isDev && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
+          {/*{isDev && (*/}
+          {/*  <SettingDrawer*/}
+          {/*    disableUrlParams*/}
+          {/*    enableDarkTheme*/}
+          {/*    settings={initialState?.settings}*/}
+          {/*    onSettingChange={(settings) => {*/}
+          {/*      setInitialState((preInitialState) => ({*/}
+          {/*        ...preInitialState,*/}
+          {/*        settings,*/}
+          {/*      }));*/}
+          {/*    }}*/}
+          {/*  />*/}
+          {/*)}*/}
         </>
       );
     },
