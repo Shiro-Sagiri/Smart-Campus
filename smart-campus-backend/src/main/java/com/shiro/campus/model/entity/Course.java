@@ -7,10 +7,8 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 
- * @TableName course
+ *
  */
-@TableName(value ="course")
 @Data
 public class Course implements Serializable {
     /**

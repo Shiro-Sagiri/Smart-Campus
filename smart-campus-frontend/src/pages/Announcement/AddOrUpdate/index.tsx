@@ -55,7 +55,7 @@ const AddOrUpdate: React.FC = () => {
 
   return (
     <>
-      <h2>{id ? '编辑图书' : '添加图书'}</h2>
+      <h2>{id ? '编辑公告' : '添加公告'}</h2>
       <ProCard>
         <Flex justify={'center'} align={'center'}>
           <ProForm<API.AnnouncementAddRequest>

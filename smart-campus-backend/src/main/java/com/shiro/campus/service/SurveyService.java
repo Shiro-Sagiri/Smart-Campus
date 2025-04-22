@@ -1,13 +1,22 @@
 package com.shiro.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.shiro.campus.model.dto.survey.SurveyAddRequest;
+import com.shiro.campus.model.dto.survey.SurveyQueryRequest;
+import com.shiro.campus.model.dto.survey.SurveyUpdateRequest;
 import com.shiro.campus.model.entity.Survey;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 /**
 * @author ly179
-* @description 针对表【survey】的数据库操作Service
-* @createDate 2025-03-31 16:48:11
 */
 public interface SurveyService extends IService<Survey> {
 
+    void addSurvey(@Valid SurveyAddRequest surveyAddRequest, HttpServletRequest request);
+
+    IPage<Survey> listSurveyByPage(@Valid SurveyQueryRequest surveyQueryRequest);
+
+    void updateSurvey(SurveyUpdateRequest surveyUpdateRequest, Integer id, HttpServletRequest request);
 }

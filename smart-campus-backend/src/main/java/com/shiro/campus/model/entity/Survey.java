@@ -1,7 +1,6 @@
 package com.shiro.campus.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.shiro.campus.model.enums.SurveyStatusEnum;
 import lombok.Data;
 
 import java.io.Serial;
@@ -9,8 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 
- * @TableName survey
+ *
  */
 @TableName(value ="survey")
 @Data
@@ -47,11 +45,6 @@ public class Survey implements Serializable {
     private LocalDateTime endTime;
 
     /**
-     * 
-     */
-    private SurveyStatusEnum status;
-
-    /**
      * 逻辑删除标记
      */
     @TableLogic
@@ -79,7 +72,6 @@ public class Survey implements Serializable {
             && (this.getCreatorId() == null ? other.getCreatorId() == null : this.getCreatorId().equals(other.getCreatorId()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
     }
 
@@ -93,7 +85,6 @@ public class Survey implements Serializable {
         result = prime * result + ((getCreatorId() == null) ? 0 : getCreatorId().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         return result;
     }
@@ -109,7 +100,6 @@ public class Survey implements Serializable {
                 ", creatorId=" + creatorId +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", status=" + status +
                 ", isDeleted=" + isDeleted +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";

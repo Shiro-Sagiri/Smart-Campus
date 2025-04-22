@@ -176,7 +176,6 @@ CREATE TABLE `survey`
     `creatorId`   VARCHAR(20)              NOT NULL COMMENT '创建人ID',
     `startTime`   DATETIME                 NOT NULL COMMENT '开始时间',
     `endTime`     DATETIME                 NOT NULL COMMENT '截止时间',
-    `status`      ENUM ('ongoing','ended') NOT NULL DEFAULT 'ongoing',
     `isDeleted`   TINYINT(1)                        DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`creatorId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION
 ) ENGINE = InnoDB
