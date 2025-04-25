@@ -9,7 +9,7 @@ CREATE TABLE `user`
 (
     `id`          INT AUTO_INCREMENT PRIMARY KEY COMMENT '用户ID',
     `userName`    VARCHAR(50)                        NOT NULL COMMENT '用户名',
-    `userAvatar`  VARCHAR(200)                       NOT NULL COMMENT '用户头像url',
+    `userAvatar`  VARCHAR(200) COMMENT '用户头像url',
     `password`    VARCHAR(100)                       NOT NULL COMMENT '加密密码',
     `role`        ENUM ('student','teacher','admin') NOT NULL DEFAULT 'student' COMMENT '角色',
     `userId`      VARCHAR(20) UNIQUE COMMENT '学号或工号',
@@ -92,10 +92,10 @@ CREATE TABLE `course_evaluation`
 -- ----------------------------
 CREATE TABLE `campus_card`
 (
-    `cardId`    VARCHAR(20) PRIMARY KEY COMMENT '校园卡号',
-    `userId`    VARCHAR(20)    NOT NULL UNIQUE COMMENT '用户ID',
-    `balance`   DECIMAL(10, 2) NOT NULL DEFAULT 0.00 COMMENT '余额',
-    `isLost`    TINYINT(1)              DEFAULT 0 COMMENT '挂失状态',
+    `cardId`  VARCHAR(20) PRIMARY KEY COMMENT '校园卡号',
+    `userId`  VARCHAR(20)    NOT NULL UNIQUE COMMENT '用户ID',
+    `balance` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 COMMENT '余额',
+    `isLost`  TINYINT(1)              DEFAULT 0 COMMENT '挂失状态',
     FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -123,7 +123,7 @@ CREATE TABLE `book`
 (
     `bookId`    INT AUTO_INCREMENT PRIMARY KEY COMMENT '图书ID',
     `title`     VARCHAR(200)                  NOT NULL COMMENT '书名',
-    `cover`     VARCHAR(200)                           COMMENT '封面',
+    `cover`     VARCHAR(200) COMMENT '封面',
     `author`    VARCHAR(100)                  NOT NULL COMMENT '作者',
     `status`    ENUM ('available','borrowed') NOT NULL DEFAULT 'available',
     `isDeleted` TINYINT(1)                             DEFAULT 0 COMMENT '逻辑删除标记'
@@ -171,12 +171,12 @@ CREATE TABLE `announcement`
 CREATE TABLE `survey`
 (
     `surveyId`    INT AUTO_INCREMENT PRIMARY KEY COMMENT '问卷ID',
-    `title`       VARCHAR(200)             NOT NULL COMMENT '标题',
+    `title`       VARCHAR(200) NOT NULL COMMENT '标题',
     `description` TEXT COMMENT '描述',
-    `creatorId`   VARCHAR(20)              NOT NULL COMMENT '创建人ID',
-    `startTime`   DATETIME                 NOT NULL COMMENT '开始时间',
-    `endTime`     DATETIME                 NOT NULL COMMENT '截止时间',
-    `isDeleted`   TINYINT(1)                        DEFAULT 0 COMMENT '逻辑删除标记',
+    `creatorId`   VARCHAR(20)  NOT NULL COMMENT '创建人ID',
+    `startTime`   DATETIME     NOT NULL COMMENT '开始时间',
+    `endTime`     DATETIME     NOT NULL COMMENT '截止时间',
+    `isDeleted`   TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`creatorId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

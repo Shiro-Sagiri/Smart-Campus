@@ -54,6 +54,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseCourse = {
+    code?: number;
+    data?: Course;
+    message?: string;
+  };
+
   type BaseResponseIPageAnnouncement = {
     code?: number;
     data?: IPageAnnouncement;
@@ -72,6 +78,18 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseIPageCourse = {
+    code?: number;
+    data?: IPageCourse;
+    message?: string;
+  };
+
+  type BaseResponseIPageSurvey = {
+    code?: number;
+    data?: IPageSurvey;
+    message?: string;
+  };
+
   type BaseResponseIPageUserVO = {
     code?: number;
     data?: IPageUserVO;
@@ -81,6 +99,12 @@ declare namespace API {
   type BaseResponseString = {
     code?: number;
     data?: string;
+    message?: string;
+  };
+
+  type BaseResponseSurveyVO = {
+    code?: number;
+    data?: SurveyVO;
     message?: string;
   };
 
@@ -163,6 +187,44 @@ declare namespace API {
     balance?: number;
   };
 
+  type Course = {
+    courseId?: number;
+    courseName?: string;
+    credit?: number;
+    teacherId?: string;
+    maxCapacity?: number;
+    classTime?: string;
+    location?: string;
+    isDeleted?: number;
+  };
+
+  type CourseAddRequest = {
+    courseName: string;
+    credit: number;
+    teacherId: string;
+    maxCapacity: number;
+    classTime: string;
+    location: string;
+  };
+
+  type CourseQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    courseName?: string;
+    teacherId?: string;
+  };
+
+  type CourseUpdateRequest = {
+    courseName: string;
+    credit: number;
+    teacherId: string;
+    maxCapacity: number;
+    classTime: string;
+    location: string;
+  };
+
   type deleteAnnouncementByIdParams = {
     id: string;
   };
@@ -172,6 +234,14 @@ declare namespace API {
   };
 
   type deleteCampusCardByIdParams = {
+    id: string;
+  };
+
+  type deleteCourseByIdParams = {
+    id: string;
+  };
+
+  type deleteSurveyByIdParams = {
     id: string;
   };
 
@@ -188,6 +258,14 @@ declare namespace API {
   };
 
   type getCampusCardByIdParams = {
+    id: string;
+  };
+
+  type getCourseByIdParams = {
+    id: string;
+  };
+
+  type getSurveyVOByIdParams = {
     id: string;
   };
 
@@ -219,12 +297,81 @@ declare namespace API {
     pages?: number;
   };
 
+  type IPageCourse = {
+    size?: number;
+    current?: number;
+    records?: Course[];
+    total?: number;
+    pages?: number;
+  };
+
+  type IPageSurvey = {
+    size?: number;
+    current?: number;
+    records?: Survey[];
+    total?: number;
+    pages?: number;
+  };
+
   type IPageUserVO = {
     size?: number;
     current?: number;
     records?: UserVO[];
     total?: number;
     pages?: number;
+  };
+
+  type Survey = {
+    surveyId?: number;
+    title?: string;
+    description?: string;
+    creatorId?: string;
+    startTime?: string;
+    endTime?: string;
+    isDeleted?: number;
+  };
+
+  type SurveyAddRequest = {
+    title: string;
+    description?: string;
+    startTime: string;
+    endTime: string;
+    surveyQuestionList: SurveyQuestion[];
+  };
+
+  type SurveyQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    title?: string;
+  };
+
+  type SurveyQuestion = {
+    questionId?: number;
+    surveyId?: number;
+    type?: 'RADIO' | 'MULTIPLE' | 'TEXT';
+    content?: string;
+    options?: string[];
+    isDeleted?: number;
+  };
+
+  type SurveyUpdateRequest = {
+    title: string;
+    description?: string;
+    startTime: string;
+    endTime: string;
+    surveyQuestionList: SurveyQuestion[];
+  };
+
+  type SurveyVO = {
+    surveyId?: number;
+    title?: string;
+    description?: string;
+    creatorId?: string;
+    startTime?: string;
+    endTime?: string;
+    questionList?: SurveyQuestion[];
   };
 
   type updateAnnouncementByIdParams = {
@@ -237,6 +384,14 @@ declare namespace API {
 
   type updateCampusCardByIdParams = {
     id: string;
+  };
+
+  type updateCourseByIdParams = {
+    id: number;
+  };
+
+  type updateSurveyByIdParams = {
+    id: number;
   };
 
   type updateUserByIdParams = {

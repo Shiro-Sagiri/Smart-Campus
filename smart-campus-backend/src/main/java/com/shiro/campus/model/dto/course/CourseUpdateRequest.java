@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  */
 @Data
-public class CourseAddRequest implements Serializable {
+public class CourseUpdateRequest implements Serializable {
 
 
     /**

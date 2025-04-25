@@ -29,6 +29,18 @@ export default [
     icon: 'Bell',
     component: './Announcement/List',
   },
+  {
+    path: '/course/list',
+    name: '课程管理',
+    icon: 'Read',
+    component: './Course/List',
+  },
+  {
+    path: '/survey/list',
+    name: '问卷管理',
+    icon: 'Snippets',
+    component: './Survey/List',
+  },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
   { path: '/user/addOrUpdate/:id', component: './User/AddOrUpdate' },
@@ -37,4 +49,8 @@ export default [
   { path: '/book/addOrUpdate', component: './Book/AddOrUpdate' },
   { path: '/announcement/addOrUpdate/:id', component: './Announcement/AddOrUpdate' },
   { path: '/announcement/addOrUpdate', component: './Announcement/AddOrUpdate' },
+  { path: '/course/addOrUpdate/:id', component: './Course/AddOrUpdate' },
+  { path: '/course/addOrUpdate', component: './Course/AddOrUpdate' },
+  { path: '/survey/addOrUpdate/:id', component: './Survey/AddOrUpdate' },
+  { path: '/survey/addOrUpdate', component: './Survey/AddOrUpdate' },
 ];

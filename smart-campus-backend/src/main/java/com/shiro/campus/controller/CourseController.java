@@ -11,36 +11,42 @@ import com.shiro.campus.model.dto.course.CourseAddRequest;
 import com.shiro.campus.model.dto.course.CourseQueryRequest;
 import com.shiro.campus.model.dto.course.CourseUpdateRequest;
 import com.shiro.campus.model.entity.Course;
-import com.shiro.campus.model.entity.CourseQuestion;
-import com.shiro.campus.service.CourseQuestionService;
+import com.shiro.campus.model.entity.User;
+import com.shiro.campus.model.enums.UserRoleEnum;
 import com.shiro.campus.service.CourseService;
+import com.shiro.campus.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 
     private final CourseService courseService;
+    private final UserService userService;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, UserService userService) {
         this.courseService = courseService;
+        this.userService = userService;
     }
 
-    @Operation(summary = "新增问卷")
+    @Operation(summary = "新增课程")
     @PostMapping("/add/single")
-    public BaseResponse<Void> addCourse(@Valid @RequestBody CourseAddRequest courseAddRequest, HttpServletRequest request) {
+    public BaseResponse<Void> addCourse(@Valid @RequestBody CourseAddRequest courseAddRequest) {
         ThrowUtils.throwIf(ObjectUtil.isNull(courseAddRequest), ErrorCode.PARAMS_ERROR);
-        courseService.addCourse(courseAddRequest, request);
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserId, courseAddRequest.getTeacherId());
+        User teacher = userService.getOne(wrapper);
+        ThrowUtils.throwIf(ObjectUtil.isNull(teacher) || teacher.getRole() != UserRoleEnum.TEACHER, ErrorCode.PARAMS_ERROR, "该老师不存在!");
+        Course course = new Course();
+        BeanUtils.copyProperties(courseAddRequest, course);
+        courseService.save(course);
         return ResultUtils.success("添加成功！");
     }
 
-    @Operation(summary = "分页获取问卷列表")
+    @Operation(summary = "分页获取课程列表")
     @PostMapping("/page/list")
     public BaseResponse<IPage<Course>> listCourseByPage(@Valid @RequestBody CourseQueryRequest courseQueryRequest) {
         ThrowUtils.throwIf(ObjectUtil.isNull(courseQueryRequest), ErrorCode.PARAMS_ERROR);
@@ -48,33 +54,34 @@ public class CourseController {
     }
 
     @GetMapping("/get/{id}")
-    @Operation(summary = "根据id获取问卷")
-    public BaseResponse<CourseVO> getCourseVOById(@PathVariable String id) {
+    @Operation(summary = "根据id获取课程")
+    public BaseResponse<Course> getCourseById(@PathVariable String id) {
         Course course = courseService.getById(id);
-        ThrowUtils.throwIf(ObjectUtil.isNull(course), ErrorCode.PARAMS_ERROR, "问卷不存在");
-        CourseVO courseVO = new CourseVO();
-        BeanUtils.copyProperties(course, courseVO);
-        LambdaQueryWrapper<CourseQuestion> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(CourseQuestion::getCourseId, id);
-        List<CourseQuestion> questionList = courseQuestionService.list(wrapper);
-        courseVO.setQuestionList(questionList);
-        return ResultUtils.success(courseVO);
+        ThrowUtils.throwIf(ObjectUtil.isNull(course), ErrorCode.PARAMS_ERROR, "课程不存在");
+        return ResultUtils.success(course);
     }
 
     @DeleteMapping("/delete/{id}")
-    @Operation(summary = "根据id删除问卷")
+    @Operation(summary = "根据id删除课程")
     public BaseResponse<Void> deleteCourseById(@PathVariable String id) {
         Course course = courseService.getById(id);
-        ThrowUtils.throwIf(ObjectUtil.isNull(course), ErrorCode.PARAMS_ERROR, "问卷不存在！");
+        ThrowUtils.throwIf(ObjectUtil.isNull(course), ErrorCode.PARAMS_ERROR, "课程不存在！");
         courseService.removeById(id);
         return ResultUtils.success("删除成功!");
     }
 
     @PutMapping("/update/{id}")
-    @Operation(summary = "根据id更新问卷")
-    public BaseResponse<Void> updateCourseById(@RequestBody CourseUpdateRequest courseUpdateRequest, @PathVariable Integer id, HttpServletRequest request) {
+    @Operation(summary = "根据id更新课程")
+    public BaseResponse<Void> updateCourseById(@RequestBody CourseUpdateRequest courseUpdateRequest, @PathVariable Integer id) {
         ThrowUtils.throwIf(ObjectUtil.isNull(courseUpdateRequest), ErrorCode.PARAMS_ERROR);
-        courseService.updateCourse(courseUpdateRequest, id, request);
+        Course course = new Course();
+        BeanUtils.copyProperties(courseUpdateRequest, course);
+        course.setCourseId(id);
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUserId, courseUpdateRequest.getTeacherId());
+        User teacher = userService.getOne(wrapper);
+        ThrowUtils.throwIf(ObjectUtil.isNull(teacher) || teacher.getRole() != UserRoleEnum.TEACHER, ErrorCode.PARAMS_ERROR, "该老师不存在!");
+        courseService.updateById(course);
         return ResultUtils.success("更新成功!");
     }
 }
