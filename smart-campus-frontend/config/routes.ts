@@ -41,6 +41,12 @@ export default [
     icon: 'Snippets',
     component: './Survey/List',
   },
+  {
+    path: '/book/Search',
+    name: '图书借阅',
+    icon: 'Book',
+    component: './Book/Search',
+  },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
   { path: '/user/addOrUpdate/:id', component: './User/AddOrUpdate' },
@@ -53,4 +59,7 @@ export default [
   { path: '/course/addOrUpdate', component: './Course/AddOrUpdate' },
   { path: '/survey/addOrUpdate/:id', component: './Survey/AddOrUpdate' },
   { path: '/survey/addOrUpdate', component: './Survey/AddOrUpdate' },
+  { path: '/survey/fill/:id', component: './Survey/Fill' },
+  { path: '/survey/analysis/:id', component: './Survey/Analysis' },
+  { path: '/book/detail/:id', component: './Book/Detail' },
 ];

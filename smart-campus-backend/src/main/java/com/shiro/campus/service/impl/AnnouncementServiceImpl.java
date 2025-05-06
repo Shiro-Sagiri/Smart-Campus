@@ -7,17 +7,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shiro.campus.mapper.AnnouncementMapper;
 import com.shiro.campus.model.dto.announcement.AnnouncementQueryRequest;
 import com.shiro.campus.model.entity.Announcement;
+import com.shiro.campus.model.enums.AnnouncementTargetEnum;
 import com.shiro.campus.service.AnnouncementService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
  * @author ly179
  */
 @Service
-public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Announcement>
-        implements AnnouncementService {
+public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Announcement> implements AnnouncementService {
 
     private final AnnouncementMapper announcementMapper;
 
@@ -36,7 +37,11 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
     private LambdaQueryWrapper<Announcement> buildQueryWrapper(AnnouncementQueryRequest request) {
         LambdaQueryWrapper<Announcement> wrapper = new LambdaQueryWrapper<>();
         Optional.ofNullable(request.getTitle()).ifPresent(name -> wrapper.like(Announcement::getTitle, name));
-        Optional.ofNullable(request.getTarget()).ifPresent(role -> wrapper.eq(Announcement::getTarget, role));
+        Optional.ofNullable(request.getTarget()).ifPresent(role -> {
+            if (!role.equals(AnnouncementTargetEnum.ALL)) {
+                wrapper.in(Announcement::getTarget, Arrays.asList(role, "ALL"));
+            }
+        });
         return wrapper;
     }
 }

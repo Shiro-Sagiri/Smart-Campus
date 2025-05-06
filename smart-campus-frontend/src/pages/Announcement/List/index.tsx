@@ -30,6 +30,7 @@ const AnnouncementList: React.FC = () => {
       dataIndex: 'content',
       valueType: 'textarea',
       hideInSearch: true,
+      ellipsis: true,
     },
     {
       title: '目标',

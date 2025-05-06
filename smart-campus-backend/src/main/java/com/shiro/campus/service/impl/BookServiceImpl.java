@@ -49,8 +49,6 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book>
                 wrapper.like(Book::getAuthor, name));
         Optional.ofNullable(request.getTitle()).ifPresent(id ->
                 wrapper.like(Book::getTitle, id)); // 根据业务需求决定使用 eq 或 like
-        Optional.ofNullable(request.getStatus()).ifPresent(role ->
-                wrapper.eq(Book::getStatus, role));
         return wrapper;
     }
 }

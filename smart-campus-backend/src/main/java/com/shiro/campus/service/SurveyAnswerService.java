@@ -1,5 +1,7 @@
 package com.shiro.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.shiro.campus.model.dto.survey.SurveyQueryRequest;
 import com.shiro.campus.model.entity.SurveyAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SurveyAnswerService extends IService<SurveyAnswer> {
 
+    IPage<SurveyAnswer> getTextAnswer(SurveyQueryRequest surveyQueryRequest,Integer surveyId);
 }

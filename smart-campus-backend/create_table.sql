@@ -1,6 +1,8 @@
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS smart_campus DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE smart_campus;
+CREATE
+    DATABASE IF NOT EXISTS smart_campus DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE
+    smart_campus;
 
 -- ----------------------------
 -- 1. 用户表（核心表）
@@ -121,12 +123,17 @@ CREATE TABLE `transaction`
 -- ----------------------------
 CREATE TABLE `book`
 (
-    `bookId`    INT AUTO_INCREMENT PRIMARY KEY COMMENT '图书ID',
-    `title`     VARCHAR(200)                  NOT NULL COMMENT '书名',
-    `cover`     VARCHAR(200) COMMENT '封面',
-    `author`    VARCHAR(100)                  NOT NULL COMMENT '作者',
-    `status`    ENUM ('available','borrowed') NOT NULL DEFAULT 'available',
-    `isDeleted` TINYINT(1)                             DEFAULT 0 COMMENT '逻辑删除标记'
+    `bookId`        INT AUTO_INCREMENT PRIMARY KEY COMMENT '图书ID',
+    `description`   varchar(500) COMMENT '简介',
+    `title`         VARCHAR(200)                  NOT NULL COMMENT '书名',
+    `cover`         VARCHAR(500) COMMENT '封面URL',
+    `author`        VARCHAR(100)                  NOT NULL COMMENT '作者',
+    `publisherName` VARCHAR(100)                  NOT NULL COMMENT '出版社名称',
+    `publishDate`   DATE COMMENT '出版日期',
+    `total`         INT                           NOT NULL COMMENT '馆藏总量',
+    `borrowedNum`   INT                                    DEFAULT 0 NOT NULL COMMENT '借出数量',
+    `isDeleted`     TINYINT(1)                             DEFAULT 0 COMMENT '逻辑删除',
+    INDEX `idx_title_author` (`title`, `author`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
@@ -191,7 +198,6 @@ CREATE TABLE `survey_question`
     `type`       ENUM ('radio','multiple','text') NOT NULL COMMENT '问题类型',
     `content`    TEXT                             NOT NULL COMMENT '题干',
     `options`    JSON COMMENT '选项列表',
-    `isDeleted`  TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`surveyId`) REFERENCES `Survey` (`surveyId`) ON DELETE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -202,12 +208,12 @@ CREATE TABLE `survey_question`
 CREATE TABLE `survey_answer`
 (
     `answerId`   INT AUTO_INCREMENT PRIMARY KEY COMMENT '回答ID',
-    `surveyId`   INT         NOT NULL COMMENT '问卷ID',
-    `questionId` INT         NOT NULL COMMENT '问题ID',
-    `userId`     VARCHAR(20) NOT NULL COMMENT '用户ID',
-    `answer`     TEXT        NOT NULL COMMENT '回答内容',
-    `submitTime` DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '提交时间',
-    `isDeleted`  TINYINT(1)           DEFAULT 0 COMMENT '逻辑删除标记',
+    `surveyId`   INT                              NOT NULL COMMENT '问卷ID',
+    `questionId` INT                              NOT NULL COMMENT '问题ID',
+    `userId`     VARCHAR(20)                      NOT NULL COMMENT '用户ID',
+    `type`       ENUM ('radio','multiple','text') NOT NULL COMMENT '问题类型',
+    `answer`     TEXT                             NOT NULL COMMENT '回答内容',
+    `submitTime` DATETIME                         NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '提交时间',
     FOREIGN KEY (`surveyId`) REFERENCES `Survey` (`surveyId`) ON DELETE NO ACTION,
     FOREIGN KEY (`questionId`) REFERENCES survey_question (`questionId`) ON DELETE NO ACTION,
     FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION

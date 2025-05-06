@@ -1,6 +1,7 @@
 package com.shiro.campus.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.shiro.campus.handler.JsonListTypeHandler;
 import com.shiro.campus.model.enums.QuestionTypeEnum;
 import lombok.Data;
 
@@ -38,13 +39,8 @@ public class SurveyQuestion implements Serializable {
     /**
      * 选项列表
      */
+    @TableField(typeHandler = JsonListTypeHandler.class)
     private List<String> options;
-
-    /**
-     * 逻辑删除标记
-     */
-    @TableLogic
-    private Integer isDeleted;
 
     @Serial
     @TableField(exist = false)
@@ -62,7 +58,7 @@ public class SurveyQuestion implements Serializable {
             return false;
         }
         SurveyQuestion other = (SurveyQuestion) that;
-        return (this.getQuestionId() == null ? other.getQuestionId() == null : this.getQuestionId().equals(other.getQuestionId())) && (this.getSurveyId() == null ? other.getSurveyId() == null : this.getSurveyId().equals(other.getSurveyId())) && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType())) && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent())) && (this.getOptions() == null ? other.getOptions() == null : this.getOptions().equals(other.getOptions())) && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
+        return (this.getQuestionId() == null ? other.getQuestionId() == null : this.getQuestionId().equals(other.getQuestionId())) && (this.getSurveyId() == null ? other.getSurveyId() == null : this.getSurveyId().equals(other.getSurveyId())) && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType())) && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent())) && (this.getOptions() == null ? other.getOptions() == null : this.getOptions().equals(other.getOptions()));
     }
 
     @Override
@@ -74,12 +70,11 @@ public class SurveyQuestion implements Serializable {
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getOptions() == null) ? 0 : getOptions().hashCode());
-        result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [" + "Hash = " + hashCode() + ", questionId=" + questionId + ", surveyId=" + surveyId + ", type=" + type + ", content=" + content + ", options=" + options + ", isDeleted=" + isDeleted + ", serialVersionUID=" + serialVersionUID + "]";
+        return getClass().getSimpleName() + " [" + "Hash = " + hashCode() + ", questionId=" + questionId + ", surveyId=" + surveyId + ", type=" + type + ", content=" + content + ", options=" + options + ", serialVersionUID=" + serialVersionUID + "]";
     }
 }

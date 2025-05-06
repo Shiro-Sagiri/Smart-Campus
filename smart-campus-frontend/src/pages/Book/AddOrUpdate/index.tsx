@@ -1,4 +1,11 @@
-import { ProCard, ProForm, ProFormUploadButton } from '@ant-design/pro-components';
+import {
+  ProCard,
+  ProForm,
+  ProFormDatePicker,
+  ProFormDigit,
+  ProFormTextArea,
+  ProFormUploadButton,
+} from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-components';
 import { Flex, message } from 'antd';
 import { history } from '@umijs/max';
@@ -26,6 +33,10 @@ const AddOrUpdate: React.FC = () => {
           title: res.data?.title,
           author: res.data?.author,
           status: res.data?.status,
+          description: res.data?.description,
+          publisherName: res.data?.publisherName,
+          publishDate: res.data?.publishDate,
+          total: res.data?.total,
           cover: res.data?.cover
             ? [
                 {
@@ -111,6 +122,31 @@ const AddOrUpdate: React.FC = () => {
               required
               label="作者"
               placeholder="请输入作者"
+              rules={[{ required: true, message: '这是必填项' }]}
+            />
+            <ProFormTextArea width="lg" name="description" label="简介" placeholder="请输入简介" />
+            <ProFormText
+              width="lg"
+              name="publisherName"
+              required
+              label="出版社名称"
+              placeholder="请输入出版社名称"
+              rules={[{ required: true, message: '这是必填项' }]}
+            />
+            <ProFormDatePicker
+              width="lg"
+              name="publishDate"
+              required
+              label="出版时间"
+              placeholder="请输入出版时间"
+              rules={[{ required: true, message: '这是必填项' }]}
+            />
+            <ProFormDigit
+              width="lg"
+              name="total"
+              required
+              label="馆藏总量"
+              placeholder="请输入馆藏总量"
               rules={[{ required: true, message: '这是必填项' }]}
             />
           </ProForm>

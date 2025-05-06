@@ -84,15 +84,27 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseIPageSurvey = {
+  type BaseResponseIPageSurveyAnswer = {
     code?: number;
-    data?: IPageSurvey;
+    data?: IPageSurveyAnswer;
+    message?: string;
+  };
+
+  type BaseResponseIPageSurveyVO = {
+    code?: number;
+    data?: IPageSurveyVO;
     message?: string;
   };
 
   type BaseResponseIPageUserVO = {
     code?: number;
     data?: IPageUserVO;
+    message?: string;
+  };
+
+  type BaseResponseListSurveyAnswer = {
+    code?: number;
+    data?: SurveyAnswer[];
     message?: string;
   };
 
@@ -132,10 +144,15 @@ declare namespace API {
 
   type Book = {
     bookId?: number;
+    description?: string;
     title?: string;
     cover?: string;
     author?: string;
+    publisherName?: string;
+    publishDate?: string;
     status?: 'AVAILABLE' | 'BORROWED';
+    total?: number;
+    borrowedNum?: number;
     isDeleted?: number;
   };
 
@@ -144,6 +161,11 @@ declare namespace API {
     cover?: string;
     author: string;
     status: 'AVAILABLE' | 'BORROWED';
+    description?: string;
+    publisherName?: string;
+    publishDate?: string;
+    total?: number;
+    borrowedNum?: number;
   };
 
   type BookQueryRequest = {
@@ -161,6 +183,11 @@ declare namespace API {
     cover?: string;
     author: string;
     status: 'AVAILABLE' | 'BORROWED';
+    description?: string;
+    publisherName?: string;
+    publishDate?: string;
+    total?: number;
+    borrowedNum?: number;
   };
 
   type CampusCard = {
@@ -265,8 +292,16 @@ declare namespace API {
     id: string;
   };
 
+  type getSurveyAnswerParams = {
+    surveyId: number;
+  };
+
   type getSurveyVOByIdParams = {
     id: string;
+  };
+
+  type getTextAnswerParams = {
+    surveyId: number;
   };
 
   type getUserByIdParams = {
@@ -305,10 +340,18 @@ declare namespace API {
     pages?: number;
   };
 
-  type IPageSurvey = {
+  type IPageSurveyAnswer = {
     size?: number;
     current?: number;
-    records?: Survey[];
+    records?: SurveyAnswer[];
+    total?: number;
+    pages?: number;
+  };
+
+  type IPageSurveyVO = {
+    size?: number;
+    current?: number;
+    records?: SurveyVO[];
     total?: number;
     pages?: number;
   };
@@ -321,14 +364,8 @@ declare namespace API {
     pages?: number;
   };
 
-  type Survey = {
-    surveyId?: number;
-    title?: string;
-    description?: string;
-    creatorId?: string;
-    startTime?: string;
-    endTime?: string;
-    isDeleted?: number;
+  type submitSurveyAnswerParams = {
+    surveyId: number;
   };
 
   type SurveyAddRequest = {
@@ -337,6 +374,16 @@ declare namespace API {
     startTime: string;
     endTime: string;
     surveyQuestionList: SurveyQuestion[];
+  };
+
+  type SurveyAnswer = {
+    answerId?: number;
+    surveyId?: number;
+    questionId?: number;
+    userId?: string;
+    answer?: string;
+    submitTime?: string;
+    type?: 'RADIO' | 'MULTIPLE' | 'TEXT';
   };
 
   type SurveyQueryRequest = {
@@ -353,7 +400,6 @@ declare namespace API {
     type?: 'RADIO' | 'MULTIPLE' | 'TEXT';
     content?: string;
     options?: string[];
-    isDeleted?: number;
   };
 
   type SurveyUpdateRequest = {

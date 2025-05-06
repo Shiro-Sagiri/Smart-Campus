@@ -38,18 +38,39 @@ const BookList: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      valueEnum: {
-        BORROWED: {
-          text: '已借出',
-          status: 'Error',
-        },
-        AVAILABLE: {
-          text: '可借阅',
-          status: 'Success',
-        },
-      },
+      title: '简介',
+      dataIndex: 'description',
+      valueType: 'textarea',
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '出版社',
+      dataIndex: 'publisherName',
+      valueType: 'text',
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '出版时间',
+      dataIndex: 'publishDate',
+      valueType: 'date',
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '馆藏总量',
+      dataIndex: 'total',
+      valueType: 'digit',
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '借出数量',
+      dataIndex: 'borrowedNum',
+      valueType: 'digit',
+      ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '操作',
