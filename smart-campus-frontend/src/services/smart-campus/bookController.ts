@@ -14,6 +14,37 @@ export async function addBook(body: API.BookAddRequest, options?: { [key: string
   });
 }
 
+/** 借阅图书 POST /book/borrow/${param0} */
+export async function borrowBook(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.borrowBookParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseVoid>(`/book/borrow/${param0}`, {
+    method: 'POST',
+    params: {
+      ...queryParams,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 分页获取登录用户借阅的图书 POST /book/borrowed/page/list */
+export async function listBorrowedBookByPage(
+  body: API.BookQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseIPageBorrowedBookVO>('/book/borrowed/page/list', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 根据id删除图书 DELETE /book/delete/${param0} */
 export async function deleteBookById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -50,6 +81,34 @@ export async function listBookByPage(body: API.BookQueryRequest, options?: { [ke
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 缴纳罚款 POST /book/pay/fine/${param0} */
+export async function payFine(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.payFineParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseVoid>(`/book/pay/fine/${param0}`, {
+    method: 'POST',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
+}
+
+/** 归还图书 POST /book/return/${param0} */
+export async function returnBook(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.returnBookParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseVoid>(`/book/return/${param0}`, {
+    method: 'POST',
+    params: { ...queryParams },
     ...(options || {}),
   });
 }

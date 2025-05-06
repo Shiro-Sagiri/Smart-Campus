@@ -42,10 +42,13 @@ export default [
     component: './Survey/List',
   },
   {
-    path: '/book/Search',
-    name: '图书借阅',
+    path: '/book',
+    name: '图书资源',
     icon: 'Book',
-    component: './Book/Search',
+    routes: [
+      { path: 'search', name: '图书借阅', component: './Book/Search' },
+      { path: 'borrowed', name: '我的借阅', component: './Book/Borrowed' },
+    ],
   },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
@@ -61,5 +64,5 @@ export default [
   { path: '/survey/addOrUpdate', component: './Survey/AddOrUpdate' },
   { path: '/survey/fill/:id', component: './Survey/Fill' },
   { path: '/survey/analysis/:id', component: './Survey/Analysis' },
-  { path: '/book/detail/:id', component: './Book/Detail' },
+  { path: '/book/detail/:bookId', component: './Book/Detail' },
 ];

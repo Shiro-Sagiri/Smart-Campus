@@ -111,7 +111,6 @@ CREATE TABLE `transaction`
     `cardId`        VARCHAR(20)               NOT NULL COMMENT '校园卡号',
     `type`          ENUM ('recharge','spend') NOT NULL COMMENT '交易类型',
     `amount`        DECIMAL(10, 2)            NOT NULL COMMENT '金额',
-    `merchant`      VARCHAR(50) COMMENT '商户名称',
     `timestamp`     DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
     FOREIGN KEY (`cardId`) REFERENCES campus_card (`cardId`) ON DELETE NO ACTION,
     INDEX `idxCardTime` (`cardId`, `timestamp`)
@@ -125,14 +124,14 @@ CREATE TABLE `book`
 (
     `bookId`        INT AUTO_INCREMENT PRIMARY KEY COMMENT '图书ID',
     `description`   varchar(500) COMMENT '简介',
-    `title`         VARCHAR(200)                  NOT NULL COMMENT '书名',
+    `title`         VARCHAR(200)         NOT NULL COMMENT '书名',
     `cover`         VARCHAR(500) COMMENT '封面URL',
-    `author`        VARCHAR(100)                  NOT NULL COMMENT '作者',
-    `publisherName` VARCHAR(100)                  NOT NULL COMMENT '出版社名称',
+    `author`        VARCHAR(100)         NOT NULL COMMENT '作者',
+    `publisherName` VARCHAR(100)         NOT NULL COMMENT '出版社名称',
     `publishDate`   DATE COMMENT '出版日期',
-    `total`         INT                           NOT NULL COMMENT '馆藏总量',
-    `borrowedNum`   INT                                    DEFAULT 0 NOT NULL COMMENT '借出数量',
-    `isDeleted`     TINYINT(1)                             DEFAULT 0 COMMENT '逻辑删除',
+    `total`         INT                  NOT NULL COMMENT '馆藏总量',
+    `borrowedNum`   INT        DEFAULT 0 NOT NULL COMMENT '借出数量',
+    `isDeleted`     TINYINT(1) DEFAULT 0 COMMENT '逻辑删除',
     INDEX `idx_title_author` (`title`, `author`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -146,9 +145,10 @@ CREATE TABLE `borrow_record`
     `userId`     VARCHAR(20) NOT NULL COMMENT '用户ID',
     `bookId`     INT         NOT NULL COMMENT '图书ID',
     `borrowTime` DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '借出时间',
-    `dueTime`    DATETIME    NOT NULL COMMENT '应还时间',
+    `dueTime`    date        NOT NULL COMMENT '应还时间',
     `returnTime` DATETIME COMMENT '实际归还时间',
     `fine`       DECIMAL(6, 2)        DEFAULT 0.00 COMMENT '罚款金额',
+    `isPay`      TINYINT(1)  NOT NULL DEFAULT 0 COMMENT '是否缴纳',
     `isDeleted`  TINYINT(1)           DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION,
     FOREIGN KEY (`bookId`) REFERENCES `Book` (`bookId`) ON DELETE NO ACTION,

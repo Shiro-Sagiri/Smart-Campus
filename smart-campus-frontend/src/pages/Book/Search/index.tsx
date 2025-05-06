@@ -1,16 +1,28 @@
-import { ProList } from '@ant-design/pro-components';
+import { ActionType, ProList } from '@ant-design/pro-components';
 import { Avatar, Col, Row, Tag, Typography, Input } from 'antd';
 import { listBookByPage } from '@/services/smart-campus/bookController';
 import { history } from '@umijs/max';
 import { BookOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const BookList = () => {
   const { Search } = Input;
+  const [searchKey, setSearchKey] = useState<string>('');
+  const actionRef = useRef<ActionType>();
   return (
     <>
-      <Search size={"large"} style={{marginBottom: 40}} placeholder="通过书名或作者检索" loading={false} enterButton />
+      <Search
+        size="large"
+        style={{ marginBottom: 40 }}
+        placeholder="通过书名或作者检索"
+        enterButton
+        onSearch={(value) => {
+          setSearchKey(value);
+          actionRef.current?.reload();
+        }}
+      />
       <ProList<API.Book>
+        actionRef={actionRef}
         rowKey="bookId"
         onRow={(record) => ({
           onClick: () => history.push(`/book/detail/${record.bookId}`),
@@ -21,6 +33,7 @@ const BookList = () => {
             ...params,
             current: params.current,
             pageSize: params.pageSize,
+            search: searchKey,
           });
           return {
             data: response.data?.records,
@@ -54,7 +67,7 @@ const BookList = () => {
             render: (_, record) => (
               <Row gutter={[16, 24]}>
                 <Col className="gutter-row" span={24}>
-                  <Typography.Paragraph>{record.description}</Typography.Paragraph>
+                  <Typography.Paragraph>{record.author}</Typography.Paragraph>
                 </Col>
                 <Col className="gutter-row" span={12}>
                   <Typography.Text style={{ fontSize: 18 }}>

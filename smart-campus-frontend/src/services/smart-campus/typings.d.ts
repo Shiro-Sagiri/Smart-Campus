@@ -72,6 +72,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseIPageBorrowedBookVO = {
+    code?: number;
+    data?: IPageBorrowedBookVO;
+    message?: string;
+  };
+
   type BaseResponseIPageCampusCard = {
     code?: number;
     data?: IPageCampusCard;
@@ -150,7 +156,6 @@ declare namespace API {
     author?: string;
     publisherName?: string;
     publishDate?: string;
-    status?: 'AVAILABLE' | 'BORROWED';
     total?: number;
     borrowedNum?: number;
     isDeleted?: number;
@@ -160,7 +165,6 @@ declare namespace API {
     title: string;
     cover?: string;
     author: string;
-    status: 'AVAILABLE' | 'BORROWED';
     description?: string;
     publisherName?: string;
     publishDate?: string;
@@ -174,20 +178,37 @@ declare namespace API {
     sortField?: string;
     sortOrder?: string;
     title?: string;
-    status?: 'AVAILABLE' | 'BORROWED';
     author?: string;
+    search?: string;
   };
 
   type BookUpdateRequest = {
     title: string;
     cover?: string;
     author: string;
-    status: 'AVAILABLE' | 'BORROWED';
     description?: string;
     publisherName?: string;
     publishDate?: string;
     total?: number;
     borrowedNum?: number;
+  };
+
+  type borrowBookParams = {
+    id: number;
+    dueTime: string;
+  };
+
+  type BorrowedBookVO = {
+    cover?: string;
+    recordId?: number;
+    bookId?: number;
+    title?: string;
+    author?: string;
+    borrowTime?: string;
+    dueTime?: string;
+    returnTime?: string;
+    fine?: number;
+    isPay?: number;
   };
 
   type CampusCard = {
@@ -309,59 +330,80 @@ declare namespace API {
   };
 
   type IPageAnnouncement = {
-    size?: number;
-    current?: number;
     records?: Announcement[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageBook = {
-    size?: number;
-    current?: number;
     records?: Book[];
     total?: number;
+    current?: number;
+    size?: number;
+    pages?: number;
+  };
+
+  type IPageBorrowedBookVO = {
+    records?: BorrowedBookVO[];
+    total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageCampusCard = {
-    size?: number;
-    current?: number;
     records?: CampusCard[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageCourse = {
-    size?: number;
-    current?: number;
     records?: Course[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageSurveyAnswer = {
-    size?: number;
-    current?: number;
     records?: SurveyAnswer[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageSurveyVO = {
-    size?: number;
-    current?: number;
     records?: SurveyVO[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
   };
 
   type IPageUserVO = {
-    size?: number;
-    current?: number;
     records?: UserVO[];
     total?: number;
+    current?: number;
+    size?: number;
     pages?: number;
+  };
+
+  type payFineParams = {
+    id: number;
+  };
+
+  type returnBookParams = {
+    id: number;
+  };
+
+  type spendParams = {
+    id: string;
+    amount: number;
   };
 
   type submitSurveyAnswerParams = {

@@ -14,4 +14,6 @@ public class BookQueryRequest extends PageRequest implements Serializable {
 
     private String author;
 
+    private String search;
+
 }

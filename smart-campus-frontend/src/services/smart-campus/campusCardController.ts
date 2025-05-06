@@ -60,6 +60,22 @@ export async function listCampusCardByPage(
   });
 }
 
+/** 消费 POST /campusCard/spend/${param0} */
+export async function spend(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.spendParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params;
+  return request<API.BaseResponseVoid>(`/campusCard/spend/${param0}`, {
+    method: 'POST',
+    params: {
+      ...queryParams,
+    },
+    ...(options || {}),
+  });
+}
+
 /** 更新校园卡 PUT /campusCard/update/${param0} */
 export async function updateCampusCardById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

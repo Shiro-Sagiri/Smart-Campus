@@ -114,7 +114,6 @@ const BookList: React.FC = () => {
         const msg = await listBookByPage({
           current: params.current,
           pageSize: params.pageSize,
-          status: params.status,
           title: params.title,
           author: params.author,
         });

@@ -6,13 +6,13 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * 
  * @TableName borrow_record
  */
-@TableName(value ="borrow_record")
+@TableName(value = "borrow_record")
 @Data
 public class BorrowRecord implements Serializable {
     /**
@@ -39,7 +39,7 @@ public class BorrowRecord implements Serializable {
     /**
      * 应还时间
      */
-    private LocalDateTime dueTime;
+    private LocalDate dueTime;
 
     /**
      * 实际归还时间
@@ -50,6 +50,8 @@ public class BorrowRecord implements Serializable {
      * 罚款金额
      */
     private BigDecimal fine;
+
+    private Integer isPay;
 
     /**
      * 逻辑删除标记
@@ -74,13 +76,13 @@ public class BorrowRecord implements Serializable {
         }
         BorrowRecord other = (BorrowRecord) that;
         return (this.getRecordId() == null ? other.getRecordId() == null : this.getRecordId().equals(other.getRecordId()))
-            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getBookId() == null ? other.getBookId() == null : this.getBookId().equals(other.getBookId()))
-            && (this.getBorrowTime() == null ? other.getBorrowTime() == null : this.getBorrowTime().equals(other.getBorrowTime()))
-            && (this.getDueTime() == null ? other.getDueTime() == null : this.getDueTime().equals(other.getDueTime()))
-            && (this.getReturnTime() == null ? other.getReturnTime() == null : this.getReturnTime().equals(other.getReturnTime()))
-            && (this.getFine() == null ? other.getFine() == null : this.getFine().equals(other.getFine()))
-            && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
+                && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+                && (this.getBookId() == null ? other.getBookId() == null : this.getBookId().equals(other.getBookId()))
+                && (this.getBorrowTime() == null ? other.getBorrowTime() == null : this.getBorrowTime().equals(other.getBorrowTime()))
+                && (this.getDueTime() == null ? other.getDueTime() == null : this.getDueTime().equals(other.getDueTime()))
+                && (this.getReturnTime() == null ? other.getReturnTime() == null : this.getReturnTime().equals(other.getReturnTime()))
+                && (this.getFine() == null ? other.getFine() == null : this.getFine().equals(other.getFine()))
+                && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
     }
 
     @Override
