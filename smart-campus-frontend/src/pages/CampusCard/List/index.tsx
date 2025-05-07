@@ -69,7 +69,7 @@ const CampusCardList: React.FC = () => {
           充值
         </a>,
         <Popconfirm
-          title="挂失校园卡"
+          title={`${record.isLost === 0 ? '卡片挂失' : '取消挂失'}`}
           onConfirm={async () => {
             try {
               await updateCampusCardById(
@@ -82,7 +82,9 @@ const CampusCardList: React.FC = () => {
               message.error(error.message);
             }
           }}
-          description="你确定要挂失此校园卡吗?"
+          description={`${
+            record.isLost === 0 ? '你确定要挂失此校园卡吗?' : '你确定要取消挂失此校园卡吗?'
+          }`}
           okText="是"
           cancelText="否"
           key={'isLost'}

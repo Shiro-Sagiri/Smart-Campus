@@ -102,6 +102,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseIPageTransaction = {
+    code?: number;
+    data?: IPageTransaction;
+    message?: string;
+  };
+
   type BaseResponseIPageUserVO = {
     code?: number;
     data?: IPageUserVO;
@@ -330,66 +336,74 @@ declare namespace API {
   };
 
   type IPageAnnouncement = {
+    size?: number;
+    current?: number;
     records?: Announcement[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageBook = {
+    size?: number;
+    current?: number;
     records?: Book[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageBorrowedBookVO = {
+    size?: number;
+    current?: number;
     records?: BorrowedBookVO[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageCampusCard = {
+    size?: number;
+    current?: number;
     records?: CampusCard[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageCourse = {
+    size?: number;
+    current?: number;
     records?: Course[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageSurveyAnswer = {
+    size?: number;
+    current?: number;
     records?: SurveyAnswer[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
   type IPageSurveyVO = {
+    size?: number;
+    current?: number;
     records?: SurveyVO[];
     total?: number;
-    current?: number;
+    pages?: number;
+  };
+
+  type IPageTransaction = {
     size?: number;
+    current?: number;
+    records?: Transaction[];
+    total?: number;
     pages?: number;
   };
 
   type IPageUserVO = {
+    size?: number;
+    current?: number;
     records?: UserVO[];
     total?: number;
-    current?: number;
-    size?: number;
     pages?: number;
   };
 
@@ -460,6 +474,14 @@ declare namespace API {
     startTime?: string;
     endTime?: string;
     questionList?: SurveyQuestion[];
+  };
+
+  type Transaction = {
+    transactionId?: number;
+    cardId?: string;
+    type?: 'RECHARGE' | 'SPEND';
+    amount?: number;
+    timestamp?: string;
   };
 
   type updateAnnouncementByIdParams = {

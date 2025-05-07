@@ -45,6 +45,14 @@ export async function getCampusCardById(
   });
 }
 
+/** 获取当前用户校园卡信息 GET /campusCard/get/current */
+export async function getCurrentCampusCard(options?: { [key: string]: any }) {
+  return request<API.BaseResponseCampusCard>('/campusCard/get/current', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** 分页获取校园卡列表 POST /campusCard/page/list */
 export async function listCampusCardByPage(
   body: API.CampusCardQueryRequest,
@@ -56,6 +64,14 @@ export async function listCampusCardByPage(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 登录用户注册校园卡 POST /campusCard/register */
+export async function registerCampusCard(options?: { [key: string]: any }) {
+  return request<API.BaseResponseVoid>('/campusCard/register', {
+    method: 'POST',
     ...(options || {}),
   });
 }
@@ -72,6 +88,21 @@ export async function spend(
     params: {
       ...queryParams,
     },
+    ...(options || {}),
+  });
+}
+
+/** 分页获取登录用户消费记录 POST /campusCard/transaction/page/list */
+export async function listTransactionByPage(
+  body: API.CampusCardQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseIPageTransaction>('/campusCard/transaction/page/list', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
     ...(options || {}),
   });
 }

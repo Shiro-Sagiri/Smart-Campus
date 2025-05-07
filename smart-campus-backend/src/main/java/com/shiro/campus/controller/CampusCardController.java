@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shiro.campus.common.BaseResponse;
 import com.shiro.campus.common.ErrorCode;
 import com.shiro.campus.common.ResultUtils;
+import com.shiro.campus.constant.UserConstant;
 import com.shiro.campus.exception.ThrowUtils;
 import com.shiro.campus.model.dto.CampusCard.CampusCardAddRequest;
 import com.shiro.campus.model.dto.CampusCard.CampusCardQueryRequest;
@@ -13,9 +14,11 @@ import com.shiro.campus.model.dto.CampusCard.CampusCardUpdateRequest;
 import com.shiro.campus.model.entity.CampusCard;
 import com.shiro.campus.model.entity.Transaction;
 import com.shiro.campus.model.enums.TransactionTypeEnum;
+import com.shiro.campus.model.vo.UserVO;
 import com.shiro.campus.service.CampusCardService;
 import com.shiro.campus.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +38,16 @@ public class CampusCardController {
 
     @Operation(summary = "新增校园卡")
     @PostMapping("/add/single")
-    public BaseResponse<Void> addCampusCard(@Valid @RequestBody CampusCardAddRequest campusCardAddRequest) {
+    public BaseResponse<Void> addCampusCard(@Valid @RequestBody CampusCardAddRequest campusCardAddRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(ObjectUtil.isNull(campusCardAddRequest), ErrorCode.PARAMS_ERROR);
-        campusCardService.addCampusCard(campusCardAddRequest);
+        campusCardService.addCampusCard(campusCardAddRequest, request);
+        return ResultUtils.success("添加成功！");
+    }
+
+    @Operation(summary = "登录用户注册校园卡")
+    @PostMapping("/register")
+    public BaseResponse<Void> registerCampusCard(HttpServletRequest request) {
+        campusCardService.addCampusCard(null, request);
         return ResultUtils.success("添加成功！");
     }
 
@@ -110,5 +120,24 @@ public class CampusCardController {
         transactionService.save(transaction);
         campusCardService.updateById(campusCard);
         return ResultUtils.success("支付成功!");
+    }
+
+    //分页获取登录用户消费记录
+    @PostMapping("/transaction/page/list")
+    @Operation(summary = "分页获取登录用户消费记录")
+    public BaseResponse<IPage<Transaction>> listTransactionByPage(@Valid @RequestBody CampusCardQueryRequest campusCardQueryRequest, HttpServletRequest servletRequest) {
+        return ResultUtils.success(campusCardService.listTransactionByPage(campusCardQueryRequest, servletRequest));
+    }
+
+    //获取当前用户校园卡信息
+    @GetMapping("/get/current")
+    @Operation(summary = "获取当前用户校园卡信息")
+    public BaseResponse<CampusCard> getCurrentCampusCard(HttpServletRequest request) {
+        String userId = ((UserVO) request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE)).getUserId();
+        LambdaQueryWrapper<CampusCard> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(CampusCard::getUserId, userId);
+        CampusCard campusCard = campusCardService.getOne(wrapper);
+        ThrowUtils.throwIf(ObjectUtil.isNull(campusCard), ErrorCode.PARAMS_ERROR, "校园卡不存在！");
+        return ResultUtils.success(campusCard);
     }
 }

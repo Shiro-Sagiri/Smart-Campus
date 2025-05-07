@@ -103,7 +103,7 @@ CREATE TABLE `campus_card`
   DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
--- 7. 消费记录表(硬删除) //todo
+-- 7. 消费记录表(硬删除)
 -- ----------------------------
 CREATE TABLE `transaction`
 (
@@ -112,7 +112,7 @@ CREATE TABLE `transaction`
     `type`          ENUM ('recharge','spend') NOT NULL COMMENT '交易类型',
     `amount`        DECIMAL(10, 2)            NOT NULL COMMENT '金额',
     `timestamp`     DATETIME                  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
-    FOREIGN KEY (`cardId`) REFERENCES campus_card (`cardId`) ON DELETE NO ACTION,
+    FOREIGN KEY (`cardId`) REFERENCES campus_card (`cardId`) ON DELETE CASCADE,
     INDEX `idxCardTime` (`cardId`, `timestamp`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

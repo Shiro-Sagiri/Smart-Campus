@@ -41,11 +41,6 @@ public class Transaction implements Serializable {
     private BigDecimal amount;
 
     /**
-     * 商户名称
-     */
-    private String merchant;
-
-    /**
      * 交易时间
      */
     private LocalDateTime timestamp;
@@ -70,7 +65,6 @@ public class Transaction implements Serializable {
             && (this.getCardId() == null ? other.getCardId() == null : this.getCardId().equals(other.getCardId()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
-            && (this.getMerchant() == null ? other.getMerchant() == null : this.getMerchant().equals(other.getMerchant()))
             && (this.getTimestamp() == null ? other.getTimestamp() == null : this.getTimestamp().equals(other.getTimestamp()));
     }
 
@@ -82,7 +76,6 @@ public class Transaction implements Serializable {
         result = prime * result + ((getCardId() == null) ? 0 : getCardId().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
-        result = prime * result + ((getMerchant() == null) ? 0 : getMerchant().hashCode());
         result = prime * result + ((getTimestamp() == null) ? 0 : getTimestamp().hashCode());
         return result;
     }
@@ -96,7 +89,6 @@ public class Transaction implements Serializable {
                 ", cardId=" + cardId +
                 ", type=" + type +
                 ", amount=" + amount +
-                ", merchant=" + merchant +
                 ", timestamp=" + timestamp +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";

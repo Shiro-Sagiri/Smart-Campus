@@ -50,6 +50,15 @@ export default [
       { path: 'borrowed', name: '我的借阅', component: './Book/Borrowed' },
     ],
   },
+  {
+    path: '/card',
+    name: '校园卡',
+    icon: 'CreditCard',
+    routes: [
+      { path: 'record', name: '消费记录', component: './CampusCard/Record' },
+      { path: 'myCard', name: '我的校园卡', component: './CampusCard/MyCard' },
+    ],
+  },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
   { path: '/user/addOrUpdate/:id', component: './User/AddOrUpdate' },
