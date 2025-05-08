@@ -102,11 +102,11 @@ public class UserController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "根据id更新用户")
-    public BaseResponse<Void> updateUserById(@RequestBody UserUpdateRequest userUpdateRequest, @PathVariable Integer id) {
+    public BaseResponse<Void> updateUserById(@RequestBody UserUpdateRequest userUpdateRequest, @PathVariable String id) {
         ThrowUtils.throwIf(ObjectUtil.isNull(userUpdateRequest), ErrorCode.PARAMS_ERROR);
         User user = new User();
         BeanUtils.copyProperties(userUpdateRequest, user);
-        user.setId(id);
+        user.setUserId(id);
         userService.updateById(user);
         return ResultUtils.success("更新成功!");
     }

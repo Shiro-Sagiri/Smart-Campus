@@ -9,12 +9,12 @@ USE
 -- ----------------------------
 CREATE TABLE `user`
 (
-    `id`          INT AUTO_INCREMENT PRIMARY KEY COMMENT '用户ID',
+    `userId`      VARCHAR(20) PRIMARY KEY COMMENT '学号或工号', #学号为10位=2(年份后两位)+2(学院)+2(专业)+2(班级)+2(序号)
+    `classId`     char(8) COMMENT '所属班级ID',
     `userName`    VARCHAR(50)                        NOT NULL COMMENT '用户名',
     `userAvatar`  VARCHAR(200) COMMENT '用户头像url',
     `password`    VARCHAR(100)                       NOT NULL COMMENT '加密密码',
     `role`        ENUM ('student','teacher','admin') NOT NULL DEFAULT 'student' COMMENT '角色',
-    `userId`      VARCHAR(20) UNIQUE COMMENT '学号或工号',
     `email`       VARCHAR(50) COMMENT '邮箱',
     `phone`       VARCHAR(15)                        NOT NULL COMMENT '手机号',
     `createdTime` DATETIME                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
@@ -23,19 +23,77 @@ CREATE TABLE `user`
   DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
--- 2. 课程表
+-- 学院表（新增）
+-- ----------------------------
+CREATE TABLE `college`
+(
+    `collegeId`   char(2) PRIMARY KEY COMMENT '学院编号', #两位数(序号)
+    `collegeName` VARCHAR(50) NOT NULL COMMENT '学院名称',
+    `description` VARCHAR(500) COMMENT '学院简介',
+    `isDeleted`   TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+-- ----------------------------
+-- 专业表（新增）
+-- ----------------------------
+CREATE TABLE `major`
+(
+    `majorId`     CHAR(4) PRIMARY KEY COMMENT '专业编号', #三位数=2(学院)+2(序号)
+    `majorName`   VARCHAR(50) NOT NULL COMMENT '专业名称',
+    `collegeId`   CHAR(2)     NOT NULL COMMENT '所属学院',
+    `description` VARCHAR(500) COMMENT '专业简介',
+    `isDeleted`   TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
+    FOREIGN KEY (`collegeId`) REFERENCES `college` (`collegeId`),
+    INDEX `idx_college` (`collegeId`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+-- ----------------------------
+-- 班级表（新增）
+-- ----------------------------
+CREATE TABLE `class`
+(
+    `classId`       CHAR(8) PRIMARY KEY COMMENT '班级ID', #八位数=2(年份后两位)+2(学院)+2(专业)+2(序号)
+    `majorId`       CHAR(1) NOT NULL COMMENT '所属专业',
+    `headTeacherId` VARCHAR(20) COMMENT '班主任工号',
+    `admissionYear` YEAR    NOT NULL COMMENT '入学年份',
+    `studentCount`  INT        DEFAULT 0 COMMENT '学生人数',
+    `isDeleted`     TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
+    FOREIGN KEY (`majorId`) REFERENCES `major` (`majorId`),
+    FOREIGN KEY (`headTeacherId`) REFERENCES `user` (`userId`),
+    INDEX `idx_major` (`majorId`),
+    INDEX `idx_teacher` (`headTeacherId`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
+
+-- ----------------------------
+-- 2. 课程表（优化版）
 -- ----------------------------
 CREATE TABLE `course`
 (
     `courseId`    INT AUTO_INCREMENT PRIMARY KEY COMMENT '课程ID',
-    `courseName`  VARCHAR(100) NOT NULL COMMENT '课程名称',
-    `credit`      FLOAT        NOT NULL COMMENT '学分',
-    `teacherId`   VARCHAR(20)  NOT NULL COMMENT '授课教师ID',
-    `maxCapacity` INT          NOT NULL COMMENT '最大选课人数',
-    `classTime`   VARCHAR(50) COMMENT '上课时间',
+    `courseName`  VARCHAR(100)  NOT NULL COMMENT '课程名称',
+    `semester`    CHAR(11)      NOT NULL COMMENT '学期（格式：YYYY-YYYY-1/2，如2023-2024-1）',
+    `credit`      DECIMAL(3, 1) NOT NULL COMMENT '学分',
+    `teacherId`   VARCHAR(20)   NOT NULL COMMENT '授课教师ID',
+    `maxCapacity` INT           NOT NULL COMMENT '最大选课人数',
+    `hours`       INT           NOT NULL COMMENT '总学时',
+    `schedule`    JSON          NOT NULL COMMENT '时间安排（JSON结构）',
+#   '{
+#       "weeks": "1-16",       -- 周次范围
+#       "weekdays": "2,4",     -- 星期几（1=周一）
+#       "sections": "3-4",     -- 节次范围
+#       "remark": "国庆调课"   -- 特殊安排说明
+#   }',
     `location`    VARCHAR(100) COMMENT '教室地点',
     `isDeleted`   TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
-    FOREIGN KEY (`teacherId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION
+
+    -- 索引
+    INDEX `idx_semester` (`semester`),
+    INDEX `idx_teacher` (`teacherId`),
+
+    FOREIGN KEY (`teacherId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
@@ -48,7 +106,6 @@ CREATE TABLE `grade`
     `studentId` VARCHAR(20) NOT NULL COMMENT '学生ID',
     `courseId`  INT         NOT NULL COMMENT '课程ID',
     `score`     FLOAT COMMENT '成绩',
-    `semester`  VARCHAR(20) NOT NULL COMMENT '学期',
     `isDeleted` TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`studentId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION,
     FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseId`) ON DELETE NO ACTION
@@ -64,7 +121,7 @@ CREATE TABLE `course_selection`
     `studentId`     VARCHAR(20)                  NOT NULL COMMENT '学生ID',
     `courseId`      INT                          NOT NULL COMMENT '课程ID',
     `status`        ENUM ('selected','withdraw') NOT NULL DEFAULT 'selected' COMMENT '状态',
-    `operationTime` DATETIME                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+    `operationTime` DATETIME                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '选课时间',
     `isDeleted`     TINYINT(1)                            DEFAULT 0 COMMENT '逻辑删除标记',
     FOREIGN KEY (`studentId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION,
     FOREIGN KEY (`courseId`) REFERENCES `Course` (`courseId`) ON DELETE NO ACTION,

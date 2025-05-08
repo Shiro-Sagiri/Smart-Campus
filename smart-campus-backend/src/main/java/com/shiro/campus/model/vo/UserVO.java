@@ -8,10 +8,6 @@ import java.util.Date;
 
 @Data
 public class UserVO implements Serializable {
-    /**
-     * 用户ID
-     */
-    private Integer id;
 
     /**
      * 用户名

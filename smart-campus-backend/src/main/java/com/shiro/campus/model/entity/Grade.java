@@ -35,11 +35,6 @@ public class Grade implements Serializable {
     private Double score;
 
     /**
-     * 学期
-     */
-    private String semester;
-
-    /**
      * 逻辑删除标记
      */
     @TableLogic
@@ -65,7 +60,6 @@ public class Grade implements Serializable {
             && (this.getStudentId() == null ? other.getStudentId() == null : this.getStudentId().equals(other.getStudentId()))
             && (this.getCourseId() == null ? other.getCourseId() == null : this.getCourseId().equals(other.getCourseId()))
             && (this.getScore() == null ? other.getScore() == null : this.getScore().equals(other.getScore()))
-            && (this.getSemester() == null ? other.getSemester() == null : this.getSemester().equals(other.getSemester()))
             && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
     }
 
@@ -77,7 +71,6 @@ public class Grade implements Serializable {
         result = prime * result + ((getStudentId() == null) ? 0 : getStudentId().hashCode());
         result = prime * result + ((getCourseId() == null) ? 0 : getCourseId().hashCode());
         result = prime * result + ((getScore() == null) ? 0 : getScore().hashCode());
-        result = prime * result + ((getSemester() == null) ? 0 : getSemester().hashCode());
         result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         return result;
     }
@@ -91,7 +84,6 @@ public class Grade implements Serializable {
                 ", studentId=" + studentId +
                 ", courseId=" + courseId +
                 ", score=" + score +
-                ", semester=" + semester +
                 ", isDeleted=" + isDeleted +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";

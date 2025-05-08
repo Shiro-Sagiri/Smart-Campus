@@ -1,14 +1,20 @@
 package com.shiro.campus.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.shiro.campus.model.vo.Schedule;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
- *
+ * @TableName course
  */
+@TableName(value = "course")
 @Data
 public class Course implements Serializable {
     /**
@@ -23,9 +29,14 @@ public class Course implements Serializable {
     private String courseName;
 
     /**
+     * 学期（格式：YYYY-YYYY-1/2，如2023-2024-1）
+     */
+    private String semester;
+
+    /**
      * 学分
      */
-    private Double credit;
+    private BigDecimal credit;
 
     /**
      * 授课教师ID
@@ -38,9 +49,14 @@ public class Course implements Serializable {
     private Integer maxCapacity;
 
     /**
-     * 上课时间
+     * 总学时
      */
-    private String classTime;
+    private Integer hours;
+
+    /**
+     * 时间安排（JSON结构）
+     */
+    private Schedule schedule;
 
     /**
      * 教室地点
@@ -50,64 +66,9 @@ public class Course implements Serializable {
     /**
      * 逻辑删除标记
      */
-    @TableLogic
     private Integer isDeleted;
 
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Course other = (Course) that;
-        return (this.getCourseId() == null ? other.getCourseId() == null : this.getCourseId().equals(other.getCourseId()))
-            && (this.getCourseName() == null ? other.getCourseName() == null : this.getCourseName().equals(other.getCourseName()))
-            && (this.getCredit() == null ? other.getCredit() == null : this.getCredit().equals(other.getCredit()))
-            && (this.getTeacherId() == null ? other.getTeacherId() == null : this.getTeacherId().equals(other.getTeacherId()))
-            && (this.getMaxCapacity() == null ? other.getMaxCapacity() == null : this.getMaxCapacity().equals(other.getMaxCapacity()))
-            && (this.getClassTime() == null ? other.getClassTime() == null : this.getClassTime().equals(other.getClassTime()))
-            && (this.getLocation() == null ? other.getLocation() == null : this.getLocation().equals(other.getLocation()))
-            && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getCourseId() == null) ? 0 : getCourseId().hashCode());
-        result = prime * result + ((getCourseName() == null) ? 0 : getCourseName().hashCode());
-        result = prime * result + ((getCredit() == null) ? 0 : getCredit().hashCode());
-        result = prime * result + ((getTeacherId() == null) ? 0 : getTeacherId().hashCode());
-        result = prime * result + ((getMaxCapacity() == null) ? 0 : getMaxCapacity().hashCode());
-        result = prime * result + ((getClassTime() == null) ? 0 : getClassTime().hashCode());
-        result = prime * result + ((getLocation() == null) ? 0 : getLocation().hashCode());
-        result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() +
-                " [" +
-                "Hash = " + hashCode() +
-                ", courseId=" + courseId +
-                ", courseName=" + courseName +
-                ", credit=" + credit +
-                ", teacherId=" + teacherId +
-                ", maxCapacity=" + maxCapacity +
-                ", classTime=" + classTime +
-                ", location=" + location +
-                ", isDeleted=" + isDeleted +
-                ", serialVersionUID=" + serialVersionUID +
-                "]";
-    }
 }
