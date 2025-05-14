@@ -1,7 +1,11 @@
 package com.shiro.campus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shiro.campus.model.entity.User;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -14,6 +18,13 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     void batchAddUsers(List<User> userList);
+
+    // 在UserMapper.java中添加
+    @Select("SELECT u.* FROM user u " +
+            "INNER JOIN course_selection cs ON u.userId = cs.studentId " +
+            "WHERE cs.courseId = #{courseId} AND u.role = 'STUDENT' " +
+            "ORDER BY u.userId")
+    IPage<User> selectStudentsByCourseId(Page<User> page, @Param("courseId") Integer courseId);
 }
 
 

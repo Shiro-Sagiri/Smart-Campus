@@ -1,11 +1,7 @@
 package com.shiro.campus.model.dto.course;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.shiro.campus.common.PageRequest;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  *

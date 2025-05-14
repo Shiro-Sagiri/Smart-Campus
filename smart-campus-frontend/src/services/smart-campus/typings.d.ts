@@ -54,6 +54,18 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseClass = {
+    code?: number;
+    data?: Class;
+    message?: string;
+  };
+
+  type BaseResponseCollege = {
+    code?: number;
+    data?: College;
+    message?: string;
+  };
+
   type BaseResponseCourse = {
     code?: number;
     data?: Course;
@@ -84,9 +96,33 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseIPageClass = {
+    code?: number;
+    data?: IPageClass;
+    message?: string;
+  };
+
+  type BaseResponseIPageCollege = {
+    code?: number;
+    data?: IPageCollege;
+    message?: string;
+  };
+
   type BaseResponseIPageCourse = {
     code?: number;
     data?: IPageCourse;
+    message?: string;
+  };
+
+  type BaseResponseIPageGradeVO = {
+    code?: number;
+    data?: IPageGradeVO;
+    message?: string;
+  };
+
+  type BaseResponseIPageMajor = {
+    code?: number;
+    data?: IPageMajor;
     message?: string;
   };
 
@@ -114,9 +150,63 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListClass = {
+    code?: number;
+    data?: Class[];
+    message?: string;
+  };
+
+  type BaseResponseListCollege = {
+    code?: number;
+    data?: College[];
+    message?: string;
+  };
+
+  type BaseResponseListCourse = {
+    code?: number;
+    data?: Course[];
+    message?: string;
+  };
+
+  type BaseResponseListGrade = {
+    code?: number;
+    data?: Grade[];
+    message?: string;
+  };
+
+  type BaseResponseListMajor = {
+    code?: number;
+    data?: Major[];
+    message?: string;
+  };
+
   type BaseResponseListSurveyAnswer = {
     code?: number;
     data?: SurveyAnswer[];
+    message?: string;
+  };
+
+  type BaseResponseListUserVO = {
+    code?: number;
+    data?: UserVO[];
+    message?: string;
+  };
+
+  type BaseResponseMajor = {
+    code?: number;
+    data?: Major;
+    message?: string;
+  };
+
+  type BaseResponseMapStringListCourseEvaluation = {
+    code?: number;
+    data?: Record<string, any>;
+    message?: string;
+  };
+
+  type BaseResponseRankVO = {
+    code?: number;
+    data?: RankVO;
     message?: string;
   };
 
@@ -241,13 +331,77 @@ declare namespace API {
     balance?: number;
   };
 
+  type ChangePasswordRequest = {
+    oldPassword?: string;
+    newPassword?: string;
+    userId?: string;
+  };
+
+  type Class = {
+    classId?: string;
+    majorId?: string;
+    headTeacherId?: string;
+    admissionYear?: string;
+    studentCount?: number;
+  };
+
+  type ClassAddRequest = {
+    classId: string;
+    majorId: string;
+    headTeacherId: string;
+    admissionYear: string;
+  };
+
+  type ClassQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    majorId?: string;
+    headTeacherId?: string;
+  };
+
+  type ClassUpdateRequest = {
+    majorId: string;
+    headTeacherId: string;
+  };
+
+  type College = {
+    collegeId?: string;
+    collegeName?: string;
+    description?: string;
+  };
+
+  type CollegeAddRequest = {
+    collegeId: string;
+    collegeName: string;
+    description?: string;
+  };
+
+  type CollegeQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    collegeId?: string;
+    collegeName?: string;
+  };
+
+  type CollegeUpdateRequest = {
+    collegeName: string;
+    description?: string;
+  };
+
   type Course = {
     courseId?: number;
     courseName?: string;
+    semester?: string;
     credit?: number;
     teacherId?: string;
     maxCapacity?: number;
-    classTime?: string;
+    selected?: number;
+    hours?: number;
+    schedule?: Schedule;
     location?: string;
     isDeleted?: number;
   };
@@ -255,10 +409,28 @@ declare namespace API {
   type CourseAddRequest = {
     courseName: string;
     credit: number;
+    hours?: number;
     teacherId: string;
+    semester?: string;
     maxCapacity: number;
-    classTime: string;
+    schedule?: Schedule;
     location: string;
+  };
+
+  type CourseCommentAddRequest = {
+    rating?: number;
+    comment?: string;
+    courseId?: number;
+  };
+
+  type CourseEvaluation = {
+    evaluationId?: number;
+    studentId?: string;
+    courseId?: number;
+    rating?: number;
+    comment?: string;
+    submitTime?: string;
+    isDeleted?: number;
   };
 
   type CourseQueryRequest = {
@@ -275,7 +447,9 @@ declare namespace API {
     credit: number;
     teacherId: string;
     maxCapacity: number;
-    classTime: string;
+    hours?: number;
+    semester?: string;
+    schedule?: Schedule;
     location: string;
   };
 
@@ -291,7 +465,19 @@ declare namespace API {
     id: string;
   };
 
+  type deleteClassByIdParams = {
+    id: string;
+  };
+
+  type deleteCollegeByIdParams = {
+    id: string;
+  };
+
   type deleteCourseByIdParams = {
+    id: string;
+  };
+
+  type deleteMajorByIdParams = {
     id: string;
   };
 
@@ -315,8 +501,24 @@ declare namespace API {
     id: string;
   };
 
+  type getClassByIdParams = {
+    id: string;
+  };
+
+  type getCollegeByIdParams = {
+    id: string;
+  };
+
   type getCourseByIdParams = {
     id: string;
+  };
+
+  type getMajorByIdParams = {
+    id: string;
+  };
+
+  type getMyCourseTimetableParams = {
+    semester: string;
   };
 
   type getSurveyAnswerParams = {
@@ -335,84 +537,211 @@ declare namespace API {
     id: string;
   };
 
+  type Grade = {
+    gradeId?: number;
+    studentId?: string;
+    courseId?: number;
+    score?: number;
+    isDeleted?: number;
+  };
+
+  type GradeAddRequest = {
+    studentId?: string;
+    courseId?: number;
+    score?: number;
+  };
+
+  type GradeQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    semester?: string;
+  };
+
+  type GradeVO = {
+    courseId?: number;
+    courseName?: string;
+    semester?: string;
+    credit?: number;
+    teacherId?: string;
+    hours?: number;
+    score?: number;
+    isComment?: boolean;
+  };
+
   type IPageAnnouncement = {
     size?: number;
-    current?: number;
-    records?: Announcement[];
     total?: number;
+    records?: Announcement[];
+    current?: number;
     pages?: number;
   };
 
   type IPageBook = {
     size?: number;
-    current?: number;
-    records?: Book[];
     total?: number;
+    records?: Book[];
+    current?: number;
     pages?: number;
   };
 
   type IPageBorrowedBookVO = {
     size?: number;
-    current?: number;
-    records?: BorrowedBookVO[];
     total?: number;
+    records?: BorrowedBookVO[];
+    current?: number;
     pages?: number;
   };
 
   type IPageCampusCard = {
     size?: number;
-    current?: number;
-    records?: CampusCard[];
     total?: number;
+    records?: CampusCard[];
+    current?: number;
+    pages?: number;
+  };
+
+  type IPageClass = {
+    size?: number;
+    total?: number;
+    records?: Class[];
+    current?: number;
+    pages?: number;
+  };
+
+  type IPageCollege = {
+    size?: number;
+    total?: number;
+    records?: College[];
+    current?: number;
     pages?: number;
   };
 
   type IPageCourse = {
     size?: number;
-    current?: number;
-    records?: Course[];
     total?: number;
+    records?: Course[];
+    current?: number;
+    pages?: number;
+  };
+
+  type IPageGradeVO = {
+    size?: number;
+    total?: number;
+    records?: GradeVO[];
+    current?: number;
+    pages?: number;
+  };
+
+  type IPageMajor = {
+    size?: number;
+    total?: number;
+    records?: Major[];
+    current?: number;
     pages?: number;
   };
 
   type IPageSurveyAnswer = {
     size?: number;
-    current?: number;
-    records?: SurveyAnswer[];
     total?: number;
+    records?: SurveyAnswer[];
+    current?: number;
     pages?: number;
   };
 
   type IPageSurveyVO = {
     size?: number;
-    current?: number;
-    records?: SurveyVO[];
     total?: number;
+    records?: SurveyVO[];
+    current?: number;
     pages?: number;
   };
 
   type IPageTransaction = {
     size?: number;
-    current?: number;
-    records?: Transaction[];
     total?: number;
+    records?: Transaction[];
+    current?: number;
     pages?: number;
   };
 
   type IPageUserVO = {
     size?: number;
-    current?: number;
-    records?: UserVO[];
     total?: number;
+    records?: UserVO[];
+    current?: number;
     pages?: number;
+  };
+
+  type listGradesByStudentIdsParams = {
+    courseId: number;
+  };
+
+  type listStudentByPageParams = {
+    id: number;
+  };
+
+  type Major = {
+    majorId?: string;
+    majorName?: string;
+    collegeId?: string;
+    description?: string;
+  };
+
+  type MajorAddRequest = {
+    majorId: string;
+    majorName: string;
+    collegeId: string;
+    description?: string;
+  };
+
+  type MajorQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    majorId?: string;
+    majorName?: string;
+    collegeId?: string;
+  };
+
+  type MajorUpdateRequest = {
+    majorName: string;
+    collegeId: string;
+    description?: string;
   };
 
   type payFineParams = {
     id: number;
   };
 
+  type RankVO = {
+    studentId?: string;
+    studentName?: string;
+    totalCredit?: number;
+    requiredCredit?: number;
+    failCredit?: number;
+    totalCourse?: number;
+    gpa?: number;
+    classRank?: number;
+    majorRank?: number;
+  };
+
   type returnBookParams = {
     id: number;
+  };
+
+  type Schedule = {
+    weeks?: string;
+    weekdays?: string;
+    sections?: string;
+    remark?: string;
+  };
+
+  type selectCourseParams = {
+    courseId: number;
+    studentId: string;
   };
 
   type spendParams = {
@@ -484,6 +813,11 @@ declare namespace API {
     timestamp?: string;
   };
 
+  type unselectCourseParams = {
+    courseId: number;
+    studentId: string;
+  };
+
   type updateAnnouncementByIdParams = {
     id: number;
   };
@@ -496,8 +830,20 @@ declare namespace API {
     id: string;
   };
 
+  type updateClassByIdParams = {
+    id: string;
+  };
+
+  type updateCollegeByIdParams = {
+    id: string;
+  };
+
   type updateCourseByIdParams = {
     id: number;
+  };
+
+  type updateMajorByIdParams = {
+    id: string;
   };
 
   type updateSurveyByIdParams = {
@@ -505,17 +851,18 @@ declare namespace API {
   };
 
   type updateUserByIdParams = {
-    id: number;
+    id: string;
   };
 
   type UserAddRequest = {
     userName: string;
     password: string;
     role: 'STUDENT' | 'ADMIN' | 'TEACHER' | 'ALL';
-    userId: string;
+    userId?: string;
     userAvatar?: string;
     email?: string;
     phone: string;
+    classId?: string;
   };
 
   type UserLoginRequest = {
@@ -531,6 +878,7 @@ declare namespace API {
     userId?: string;
     role?: 'STUDENT' | 'ADMIN' | 'TEACHER' | 'ALL';
     userName?: string;
+    classId?: string;
   };
 
   type UserUpdateRequest = {
@@ -543,10 +891,12 @@ declare namespace API {
   };
 
   type UserVO = {
-    id?: number;
     userName?: string;
     role?: 'STUDENT' | 'ADMIN' | 'TEACHER' | 'ALL';
     userId?: string;
+    classId?: string;
+    majorName?: string;
+    collegeName?: string;
     email?: string;
     userAvatar?: string;
     phone?: string;

@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.shiro.campus.handler.ScheduleTypeHandler;
 import com.shiro.campus.model.vo.Schedule;
 import lombok.Data;
+import org.apache.ibatis.type.JdbcType;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -47,6 +49,7 @@ public class Course implements Serializable {
      * 最大选课人数
      */
     private Integer maxCapacity;
+    private Integer selected;
 
     /**
      * 总学时
@@ -56,6 +59,7 @@ public class Course implements Serializable {
     /**
      * 时间安排（JSON结构）
      */
+    @TableField(typeHandler = ScheduleTypeHandler.class, jdbcType = JdbcType.VARCHAR)
     private Schedule schedule;
 
     /**

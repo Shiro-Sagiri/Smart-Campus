@@ -1,0 +1,43 @@
+// 限定在.class-table作用域内
+
+// 课程块样式（网页4、网页7）
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .course-title {
+    font-weight: 600;
+    font-size: 14px;
+    flex: 1;
+  }
+}
+
+// 表格行高适配（网页3、网页6）
+.ant-table-tbody > tr > td {
+  height: 120px;
+  padding: 4px !important;
+}
+
+// 进度条文本颜色（网页7）
+.ant-progress-text {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+// 悬浮效果（网页1、网页8）
+.ant-table-tbody td {
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 表头样式（网页4）
+.ant-table-thead th {
+  background: #f0f5ff !important;
+  font-weight: 600 !important;
+}
+

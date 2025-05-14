@@ -1,4 +1,4 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, RedoOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { message, Spin } from 'antd';
 import { createStyles } from 'antd-style';
@@ -72,8 +72,13 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         await loginOut();
         message.success('登出成功！');
         return;
+      } else if (key === 'center') {
+        history.push('/my/profile');
+        return;
+      } else if (key === 'changePassword') {
+        history.push('/my/changePassword');
+        return;
       }
-      history.push(`/account/${key}`);
     },
     [setInitialState],
   );
@@ -118,6 +123,16 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
           },
         ]
       : []),
+    {
+      key: 'center',
+      icon: <UserOutlined />,
+      label: '个人信息',
+    },
+    {
+      key: 'changePassword',
+      icon: <RedoOutlined />,
+      label: '修改密码',
+    },
     {
       key: 'logout',
       icon: <LogoutOutlined />,

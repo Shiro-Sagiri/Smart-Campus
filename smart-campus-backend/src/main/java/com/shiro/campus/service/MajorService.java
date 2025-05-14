@@ -1,7 +1,10 @@
 package com.shiro.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shiro.campus.model.dto.major.MajorQueryRequest;
 import com.shiro.campus.model.entity.Major;
+import jakarta.validation.Valid;
 
 /**
 * @author ly179
@@ -10,4 +13,5 @@ import com.shiro.campus.model.entity.Major;
 */
 public interface MajorService extends IService<Major> {
 
+    IPage<Major> listMajorByPage(@Valid MajorQueryRequest majorQueryRequest);
 }

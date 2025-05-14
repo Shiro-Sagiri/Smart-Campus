@@ -24,6 +24,12 @@ public class UserVO implements Serializable {
      */
     private String userId;
 
+    private String classId;
+
+    private String majorName;
+
+    private String collegeName;
+
     /**
      * 邮箱
      */

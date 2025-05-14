@@ -2,14 +2,28 @@ import { deleteCourseById, listCourseByPage } from '@/services/smart-campus/cour
 import { ReadOutlined } from '@ant-design/icons';
 import { ActionType, type ProColumns, ProTable } from '@ant-design/pro-components';
 import { history, Link } from '@umijs/max';
-import { Button, message, Popconfirm } from 'antd';
-import React, { useRef } from 'react';
+import { Button, message, Popconfirm, Tag } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { getTeacherList } from '@/services/smart-campus/userController';
 
 const CourseList: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const [teacherList, setTeacherList] = useState<API.UserVO[]>([]);
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      try {
+        // 替换为你的API请求
+        const res = await getTeacherList();
+        setTeacherList(res.data as any);
+      } catch (error: any) {
+        message.error(error.message);
+      }
+    };
+    fetchTeacherData();
+  }, []); // 空依赖数组表示仅执行一次
   const columns: ProColumns<API.Course>[] = [
     {
-      title: 'id',
+      title: '课程编号',
       dataIndex: 'courseId',
       // tip: 'The rule name is the unique key',
       render: (dom) => {
@@ -23,15 +37,29 @@ const CourseList: React.FC = () => {
       valueType: 'text',
     },
     {
+      title: '学期',
+      dataIndex: 'semester',
+      valueType: 'text',
+      hideInSearch: true,
+    },
+    {
       title: '学分',
       dataIndex: 'credit',
       valueType: 'digit',
       hideInSearch: true,
     },
     {
+      title: '学时',
+      dataIndex: 'hours',
+      valueType: 'digit',
+      hideInSearch: true,
+    },
+    {
       title: '教师工号',
       dataIndex: 'teacherId',
-      valueType: 'text',
+      render: (_, record) => {
+        return <div>{teacherList.find((item) => item.userId === record.teacherId)?.userName}</div>;
+      },
     },
     {
       title: '最大选课人数',
@@ -40,10 +68,38 @@ const CourseList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '上课时间',
-      dataIndex: 'classTime',
-      valueType: 'text',
       hideInSearch: true,
+      title: '时间安排',
+      children: [
+        {
+          title: '周次范围',
+          dataIndex: ['schedule', 'weeks'],
+          render: (text) => text || '-',
+        },
+        {
+          title: '星期',
+          dataIndex: ['schedule', 'weekdays'],
+          render: (weekdays) =>
+            weekdays
+              //@ts-ignore
+              ?.split(',')
+              .map((day: any) => (
+                <Tag key={day}>
+                  {['周一', '周二', '周三', '周四', '周五', '周六', '周日'][day - 1]}
+                </Tag>
+              )),
+        },
+        {
+          title: '节次',
+          dataIndex: ['schedule', 'sections'],
+          render: (text) => (text ? `${text}节` : '-'),
+        },
+        {
+          title: '备注',
+          dataIndex: ['schedule', 'remark'],
+          render: (text) => text,
+        },
+      ],
     },
     {
       title: '上课地点',

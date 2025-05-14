@@ -1,7 +1,10 @@
 package com.shiro.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shiro.campus.model.dto.classDTO.ClassQueryRequest;
 import com.shiro.campus.model.entity.Class;
+import jakarta.validation.Valid;
 
 /**
 * @author ly179
@@ -10,4 +13,5 @@ import com.shiro.campus.model.entity.Class;
 */
 public interface ClassService extends IService<Class> {
 
+    IPage<Class> listClassByPage(@Valid ClassQueryRequest classQueryRequest);
 }

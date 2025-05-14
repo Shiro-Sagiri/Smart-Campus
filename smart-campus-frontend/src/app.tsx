@@ -88,7 +88,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     ],
     links: isDev
       ? [
-          <a key="openapi" target="_blank" href="http://localhost:8080/doc.html#/home">
+          <a key="openapi" target="_blank" href="http://localhost:8080/doc.html#/home" rel="noreferrer">
             <LinkOutlined />
             <span>OpenAPI 文档</span>
           </a>,

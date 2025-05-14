@@ -3,6 +3,7 @@ package com.shiro.campus.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shiro.campus.common.BatchResult;
+import com.shiro.campus.model.dto.user.ChangePasswordRequest;
 import com.shiro.campus.model.dto.user.UserAddRequest;
 import com.shiro.campus.model.dto.user.UserQueryRequest;
 import com.shiro.campus.model.entity.User;
@@ -26,4 +27,8 @@ public interface UserService extends IService<User> {
     BatchResult batchAddUsers(@Valid List<@Valid UserAddRequest> userAddRequestList);
 
     IPage<UserVO> listUserByPage(@Valid UserQueryRequest userQueryRequest);
+
+    IPage<UserVO> getStudentListByClassId(@Valid UserQueryRequest userQueryRequest);
+
+    void updatePassword(ChangePasswordRequest changePasswordRequest);
 }

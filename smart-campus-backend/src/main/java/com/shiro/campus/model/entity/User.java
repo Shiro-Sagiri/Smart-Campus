@@ -2,7 +2,6 @@ package com.shiro.campus.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.shiro.campus.model.enums.UserRoleEnum;
 import lombok.Data;
@@ -27,6 +26,8 @@ public class User implements Serializable {
      * 用户头像url
      */
     private String userAvatar;
+
+    private String classId;
 
     /**
      * 加密密码
@@ -59,12 +60,6 @@ public class User implements Serializable {
      */
     private Date createdTime;
 
-    /**
-     * 逻辑删除标记
-     */
-    @TableLogic
-    private Integer isDeleted;
-
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -87,8 +82,7 @@ public class User implements Serializable {
                 && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
                 && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
                 && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
-                && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
-                && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
+                && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()));
     }
 
     @Override
@@ -102,7 +96,6 @@ public class User implements Serializable {
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
-        result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         return result;
     }
 
@@ -118,7 +111,6 @@ public class User implements Serializable {
                 ", email=" + email +
                 ", phone=" + phone +
                 ", createdTime=" + createdTime +
-                ", isDeleted=" + isDeleted +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";
     }

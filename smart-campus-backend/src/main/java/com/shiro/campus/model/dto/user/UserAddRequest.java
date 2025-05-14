@@ -34,7 +34,6 @@ public class UserAddRequest implements Serializable {
     /**
      * 学号或工号
      */
-    @NotNull(message = "学号或工号不能为空！")
     private String userId;
 
     /**
@@ -54,4 +53,6 @@ public class UserAddRequest implements Serializable {
     @Pattern(regexp = "^1[3-9]\\d{9}$",message = "手机号格式错误！")
     @NotNull(message = "手机号不能为空！")
     private String phone;
+
+    private String classId;
 }

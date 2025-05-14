@@ -21,7 +21,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '职工号/学号',
+      title: '工号',
       dataIndex: 'userId',
       // tip: 'The rule name is the unique key',
       render: (dom) => {
@@ -44,10 +44,6 @@ const UserList: React.FC = () => {
         TEACHER: {
           text: '职工', // TEACHER → 职工
           status: 'Processing',
-        },
-        STUDENT: {
-          text: '学生', // STUDENT → 学生
-          status: 'Success',
         },
       },
     },
@@ -74,14 +70,14 @@ const UserList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <Link key={'edit'} to={`/user/addOrUpdate/${record.id}`}>
+        <Link key={'edit'} to={`/user/addOrUpdate/${record.userId}`}>
           编辑
         </Link>,
         <Popconfirm
           title="删除用户"
           onConfirm={async () => {
             try {
-              await deleteUserById({ id: record.id as any });
+              await deleteUserById({ id: record.userId as any });
               message.success('删除成功！');
               actionRef.current?.reload(); // 重新加载表格数据
             } catch (error: any) {
@@ -99,51 +95,51 @@ const UserList: React.FC = () => {
     },
   ];
   return (
-      <ProTable<API.UserVO, API.UserQueryRequest>
-        // params 是需要自带的参数
-        // 这个参数优先级更高，会覆盖查询表单的参数
-        // params={params}
-        actionRef={actionRef}
-        request={async (
-          // 第一个参数 params 查询表单和 params 参数的结合
-          // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
-          params: API.UserQueryRequest,
-        ) => {
-          // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
-          // 如果需要转化参数可以在这里进行修改
-          const msg = await listUserByPage({
-            current: params.current,
-            pageSize: params.pageSize,
-            role: params.role,
-            userId: params.userId,
-            userName: params.userName,
-          });
-          return {
-            data: msg.data?.records,
-            // success 请返回 true，
-            // 不然 table 会停止解析数据，即使有数据
-            success: true,
-            // 不传会使用 data 的长度，如果是分页一定要传
-            total: msg.data?.total,
-          };
-        }}
-        columns={columns}
-        toolBarRender={() => [
-          <Button
-            onClick={() => {
-              history.push('/user/addOrUpdate', {
-                from: history.location.pathname + history.location.search,
-              });
-            }}
-            size={'large'}
-            key="add"
-            type={'primary'}
-            icon={<UserAddOutlined />}
-          >
-            添加用户
-          </Button>,
-        ]}
-      />
+    <ProTable<API.UserVO, API.UserQueryRequest>
+      // params 是需要自带的参数
+      // 这个参数优先级更高，会覆盖查询表单的参数
+      // params={params}
+      actionRef={actionRef}
+      request={async (
+        // 第一个参数 params 查询表单和 params 参数的结合
+        // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
+        params: API.UserQueryRequest,
+      ) => {
+        // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
+        // 如果需要转化参数可以在这里进行修改
+        const msg = await listUserByPage({
+          current: params.current,
+          pageSize: params.pageSize,
+          role: params.role,
+          userId: params.userId,
+          userName: params.userName,
+        });
+        return {
+          data: msg.data?.records,
+          // success 请返回 true，
+          // 不然 table 会停止解析数据，即使有数据
+          success: true,
+          // 不传会使用 data 的长度，如果是分页一定要传
+          total: msg.data?.total,
+        };
+      }}
+      columns={columns}
+      toolBarRender={() => [
+        <Button
+          onClick={() => {
+            history.push('/user/addOrUpdate', {
+              from: history.location.pathname + history.location.search,
+            });
+          }}
+          size={'large'}
+          key="add"
+          type={'primary'}
+          icon={<UserAddOutlined />}
+        >
+          添加用户
+        </Button>,
+      ]}
+    />
   );
 };
 

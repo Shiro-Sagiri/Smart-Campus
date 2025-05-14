@@ -30,11 +30,6 @@ public class College implements Serializable {
      */
     private String description;
 
-    /**
-     * 逻辑删除标记
-     */
-    private Integer isDeleted;
-
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

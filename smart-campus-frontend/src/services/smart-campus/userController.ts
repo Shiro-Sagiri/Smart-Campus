@@ -62,6 +62,29 @@ export async function getUserById(
   });
 }
 
+/** 根据班级id分页获取学生列表 POST /user/get/student/page */
+export async function getStudentListByClassId(
+  body: API.UserQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseIPageUserVO>('/user/get/student/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 获取职工列表 GET /user/get/teacher */
+export async function getTeacherList(options?: { [key: string]: any }) {
+  return request<API.BaseResponseListUserVO>('/user/get/teacher', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** 用户登录 POST /user/login */
 export async function userLogin(body: API.UserLoginRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseUserVO>('/user/login', {
@@ -108,6 +131,21 @@ export async function updateUserById(
       'Content-Type': 'application/json',
     },
     params: { ...queryParams },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 修改密码 PUT /user/update/password */
+export async function updatePassword(
+  body: API.ChangePasswordRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseVoid>('/user/update/password', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     data: body,
     ...(options || {}),
   });

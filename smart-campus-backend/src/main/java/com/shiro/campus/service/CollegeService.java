@@ -1,7 +1,10 @@
 package com.shiro.campus.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shiro.campus.model.dto.college.CollegeQueryRequest;
 import com.shiro.campus.model.entity.College;
+import jakarta.validation.Valid;
 
 /**
 * @author ly179
@@ -10,4 +13,5 @@ import com.shiro.campus.model.entity.College;
 */
 public interface CollegeService extends IService<College> {
 
+    IPage<College> listCollegeByPage(@Valid CollegeQueryRequest collegeQueryRequest);
 }

@@ -25,4 +25,6 @@ public class UserQueryRequest extends PageRequest implements Serializable {
      */
     private String userName;
 
+    private String classId;
+
 }

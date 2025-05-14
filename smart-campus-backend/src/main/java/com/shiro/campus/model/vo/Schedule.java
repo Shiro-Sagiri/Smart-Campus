@@ -1,5 +1,8 @@
 package com.shiro.campus.model.vo;
 
+import lombok.Data;
+
+@Data
 public class Schedule {
     //周次
     private String weeks;

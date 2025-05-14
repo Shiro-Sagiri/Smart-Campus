@@ -57,6 +57,7 @@ const AddOrUpdate: React.FC = () => {
         formData.password = '11111111'; //默认密码
         await addUser(formData);
       } else {
+        //@ts-ignore
         await updateUserById({ id: id as any }, formData);
       }
       const { from = '/user/list' } = (history.location.state as any) || {};
@@ -101,14 +102,6 @@ const AddOrUpdate: React.FC = () => {
             />
             <ProFormText
               width="lg"
-              name="userId"
-              required
-              label="学号/工号"
-              placeholder="请输入学号/工号"
-              rules={[{ required: true, message: '这是必填项' }]}
-            />
-            <ProFormText
-              width="lg"
               name="userName"
               required
               label="姓名"
@@ -125,8 +118,15 @@ const AddOrUpdate: React.FC = () => {
               options={[
                 { value: 'ADMIN', label: '管理员' },
                 { value: 'TEACHER', label: '职工' },
-                { value: 'STUDENT', label: '学生' },
               ]}
+            />
+            <ProFormText
+              width="lg"
+              name="userId"
+              required
+              label="工号"
+              placeholder="请输入工号"
+              rules={[{ required: true, message: '这是必填项' }]}
             />
             <ProFormText
               width="lg"

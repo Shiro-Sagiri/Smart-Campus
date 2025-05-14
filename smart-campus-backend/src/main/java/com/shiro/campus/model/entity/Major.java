@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -35,11 +36,7 @@ public class Major implements Serializable {
      */
     private String description;
 
-    /**
-     * 逻辑删除标记
-     */
-    private Integer isDeleted;
-
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
